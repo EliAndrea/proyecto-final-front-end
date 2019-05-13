@@ -17,7 +17,7 @@ export default class FormWorkers extends React.Component {
                 <MDBInput label="Número de Teléfono" />
             <div className="form-group select">
                 <select className="form-control" name="position" id="position">
-                    <option value="" selected>Cargo</option>
+                    <option defaultValue="">Cargo</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
