@@ -1,3 +1,12 @@
+body { 
+  background: url("https://mdbootstrap.com/img/Photos/Others/images/81.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
 .App {
   text-align: center;
 }
