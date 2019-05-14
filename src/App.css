@@ -2,7 +2,7 @@
     margin-top: 30px;
 }
 .select{
-    margin-top: 30px;
+    margin-top: 15px;
 }
 .btnAddWorker{
     margin-top: 40px;
@@ -18,4 +18,9 @@
 .link{
     cursor: pointer; 
     cursor: hand;
+}
+.labelCargo{
+    font-size: 13px;
+    font-weight: 300;
+    color: #757575;
 }
