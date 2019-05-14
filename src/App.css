@@ -1,12 +1,21 @@
 .formWorkers{
     margin-top: 30px;
 }
-
 .select{
-    margin-top: 40px;
+    margin-top: 30px;
 }
-
 .btnAddWorker{
     margin-top: 40px;
     text-align: center;
+}
+.btnNew{
+    text-align: right;
+}
+.icon{
+    float: right;
+    margin-left: 10px; 
+}
+.link{
+    cursor: pointer; 
+    cursor: hand;
 }

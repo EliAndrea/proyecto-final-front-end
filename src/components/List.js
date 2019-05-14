@@ -1,35 +1,17 @@
 import React from 'react';
-import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBFormInline, MDBIcon } from "mdbreact";
-
-const workers = [
-        {
-            firstName: "Chewy",
-            lastName: "Asdf"
-        },
-        {
-            firstName: "Bilbo",
-            lastName: "Asdf"
-        },
-        {
-            firstName: "Yoshi",
-            lastName: "Asdf"
-        },
-        {
-            firstName: "Gandalf",
-            lastName: "Asdf"
-        }];
-let workersList = [];
-workers.forEach((worker)=>{workersList.push(worker.firstName + " " + worker.lastName)});
+import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBFormInline, MDBIcon, } from "mdbreact";
 
 export default class ListWorkers extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            list: workersList,
+            list: this.props.list,
             query: "",
             filteredList: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.clickDeleteWorker = this.clickDeleteWorker.bind(this);
+        this.clickDeleteWorkerFilter = this.clickDeleteWorkerFilter.bind(this);
     }
     handleInputChange(event){
         let query = event.target.value;
@@ -43,6 +25,27 @@ export default class ListWorkers extends React.Component {
             };
         });
     }
+    //Función para eliminar trabajadores en lista completa
+    clickDeleteWorker(index, arr){
+        arr.splice(index, 1);
+        this.setState({list: arr});
+    }
+    //Función para eliminar trabajadores desde lista filtrada
+    clickDeleteWorkerFilter(index, arr){
+        let deleted = arr.splice(index, 1);
+        let newList = [];
+        this.state.list.forEach((worker)=>{
+            if (worker != deleted){
+                newList.push(worker);
+                
+            }
+        });
+        this.setState({
+            list: newList,
+            filteredList: arr
+        });
+    }
+    
     render() {
         return (
                 <div>
@@ -55,13 +58,27 @@ export default class ListWorkers extends React.Component {
                         {this.state.query === "" ? (
                         <MDBListGroup>
                             {this.state.list.map((worker, index) => {
-                                return <MDBListGroupItem href="#" key={index}>{worker}</MDBListGroupItem>;
+                                return( 
+                                    <MDBListGroupItem key={index}>
+                                        <span onClick={()=>{this.props.onClick(index)}} className="link">{worker}</span>
+                                        <span className="link"><MDBIcon className="icon" icon="trash" onClick={()=>{this.clickDeleteWorker(index, this.state.list)}}/>
+                                        </span>
+                                        <span className="link"><MDBIcon className="icon" icon="edit"/></span>
+                                    </MDBListGroupItem>
+                                );
                             })}
                         </MDBListGroup>
                         ):(
                         <MDBListGroup>
                             {this.state.filteredList.map((worker, index) => {
-                                return <MDBListGroupItem href="#" key={index}>{worker}</MDBListGroupItem>;
+                                return( 
+                                    <MDBListGroupItem key={index}>
+                                        <span onClick={()=>{this.props.onClick(index)}} className="link">{worker}</span>
+                                        <span className="link"><MDBIcon className="icon" icon="trash" onClick={()=>{this.clickDeleteWorkerFilter(index, this.state.filteredList)}}/>
+                                        </span>
+                                        <span className="link"><MDBIcon className="icon" icon="edit"/></span>
+                                    </MDBListGroupItem>
+                                );
                             })}
                         </MDBListGroup>
                         )}

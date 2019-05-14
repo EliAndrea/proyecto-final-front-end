@@ -7,10 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
+ } from 'reactstrap';
 
 export class MyNavbar extends React.Component {
   constructor(props) {
@@ -35,25 +32,14 @@ export class MyNavbar extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Trabajadores</NavLink>
+                <NavLink href="/">Trabajadores</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Opciones
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    Mi perfil
-                  </DropdownItem>
-                  <DropdownItem>
-                    Trabajadores
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Cerrar sesión
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              <NavItem>
+                <NavLink href="/">Mi Perfil</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/">Cerrar Sesión</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
