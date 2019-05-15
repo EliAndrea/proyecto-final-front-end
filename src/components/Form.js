@@ -5,7 +5,7 @@ export default class FormWorkers extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            worker: this.props.worker
+            worker: this.props.worker,
         };
     }
     render(){
@@ -47,10 +47,10 @@ export default class FormWorkers extends React.Component {
                 <MDBCard className="formWorkers">
                     <MDBCardBody>
                         <MDBCardTitle>{this.props.titulo}</MDBCardTitle>
-                        <form>
+                        <form onSubmit={()=>{this.props.button(this.state.worker)}}>
                             <MDBRow>
                                 <MDBCol size="6">
-                                    <MDBInput label="Nombre" hint={this.props.firstName} 
+                                    <MDBInput label="Nombre" value={this.props.firstName} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
                                             newWorker.firstName = event.target.value;
                                             this.setState({worker: newWorker});
@@ -58,7 +58,7 @@ export default class FormWorkers extends React.Component {
                                     />
                                 </MDBCol>
                                 <MDBCol size="6">
-                                    <MDBInput label="Apellido" hint={this.props.lastName}
+                                    <MDBInput label="Apellido" value={this.props.lastName} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
                                             newWorker.lastName = event.target.value;
                                             this.setState({worker: newWorker});
@@ -68,7 +68,7 @@ export default class FormWorkers extends React.Component {
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Email" hint={this.props.email}
+                                    <MDBInput label="Email" value={this.props.email} type="email" required
                                         onChange={(event)=>{
                                             newWorker.email = event.target.value;
                                             this.setState({worker: newWorker});
@@ -78,7 +78,7 @@ export default class FormWorkers extends React.Component {
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Número de Teléfono" hint={this.props.phone} 
+                                    <MDBInput label="Número de Teléfono" value={this.props.phone} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
                                             newWorker.phone = event.target.value;
                                             this.setState({worker: newWorker});
@@ -88,20 +88,21 @@ export default class FormWorkers extends React.Component {
                             </MDBRow>
                             <div className="form-group select">
                                 <label className="labelCargo">Cargo</label>
-                                <select className="form-control" name="position" id="position"
+                                <select className="form-control" name="position" id="position" required
                                         onChange={(event)=>{
                                             newWorker.phone = event.target.value;
                                             this.setState({worker: newWorker});
                                         }}
                                 >
-                                {this.props.positionsOptions.map((option, index) =>{
-                                    return <option key={index} value={option}> {option} </option>;
+                                    <option value="">Seleccione un cargo</option>
+                                    {this.props.positionsOptions.map((option, index) =>{
+                                        return <option key={index} value={option}> {option} </option>;
                                     })
                                 }
                                 </select>
                             </div>
                             <div className="btnAddWorker">
-                                <MDBBtn color="deep-purple" onClick={()=>{this.props.button(this.state.worker)}}>Guardar cambios</MDBBtn>
+                                <MDBBtn color="deep-purple" type="submit">Guardar cambios</MDBBtn>
                             </div>
                         </form>
                     </MDBCardBody>

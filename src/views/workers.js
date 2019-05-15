@@ -107,6 +107,7 @@ class Workers extends React.Component{
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
+                {console.log(this.state.worker)}
             </div>
             
         );
