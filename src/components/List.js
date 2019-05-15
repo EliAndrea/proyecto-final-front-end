@@ -7,48 +7,29 @@ export default class ListWorkers extends React.Component {
         this.state = {
             list: this.props.list,
             query: "",
-            filteredList: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.clickDeleteWorker = this.clickDeleteWorker.bind(this);
-        this.clickDeleteWorkerFilter = this.clickDeleteWorkerFilter.bind(this);
     }
     //Función para realizar busqueda
     handleInputChange(event){
-        let listNames = [];
-        this.props.list.forEach((item)=>listNames.push(item.firstName + " " + item.lastName));
-        let query = event.target.value;
-        const filteredList = listNames.filter(element => {
-            return element.toLowerCase().includes(query.toLowerCase());
-        });
         this.setState({
-            query: query,
-            filteredList: filteredList
+            query: event.target.value,
             });
-        console.log(filteredList)
-        console.log(this.state.filteredList)
     }
     //Función para eliminar trabajadores en lista completa
-    clickDeleteWorker(index, arr){
-        arr.splice(index, 1);
-        this.setState({list: arr});
+    clickDeleteWorker(worker){
+        let list = this.state.list;
+        let index = list.indexOf(worker);
+        list.splice(index, 1);
+        this.setState({list: list});
     }
-    //Función para eliminar trabajadores desde lista filtrada
-    clickDeleteWorkerFilter(index, arr){
-        let deleted = arr.splice(index, 1);
-        let newList = [];
-        this.state.list.forEach((worker)=>{
-            if (worker != deleted){
-                newList.push(worker);
-            }
-        });
-        this.setState({
-            list: newList,
-            filteredList: arr
-        });
-    }
-    
+
     render() {
+        const filteredList = this.props.list.filter(element => {
+            let name = element.firstName + " " + element.lastName;
+            return name.toLowerCase().includes(this.state.query.toLowerCase());
+        });
         return (
                 <div>
                     <MDBFormInline className="md-form">
@@ -62,24 +43,25 @@ export default class ListWorkers extends React.Component {
                             {this.state.list.map((worker, index) => {
                                 return( 
                                     <MDBListGroupItem key={index}>
-                                        <span onClick={()=>{this.props.show(index)}} className="link">{worker.firstName + " " + worker.lastName}</span>
-                                        <span className="link"><MDBIcon className="icon" icon="trash" onClick={()=>{this.clickDeleteWorker(index, this.state.list)}}/>
+                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.firstName + " " + worker.lastName}</span>
+                                        <span className="link"><MDBIcon className="icon" icon="trash" 
+                                            onClick={()=>{this.clickDeleteWorker(worker)}}/>
                                         </span>
-                                        <span className="link"><MDBIcon className="icon" icon="edit" onClick={()=>{this.props.edit(index)}}/></span>
+                                        <span className="link"><MDBIcon className="icon" icon="edit" onClick={()=>{this.props.edit(worker)}}/></span>
                                     </MDBListGroupItem>
                                 );
                             })}
                         </MDBListGroup>
                         ):(
                         <MDBListGroup>
-                            {this.state.filteredList.map((worker, index) => {
+                            {filteredList.map((worker, index) => {
                                 return( 
                                     <MDBListGroupItem key={index}>
-                                        <span onClick={()=>{this.props.show(index)}} className="link">{worker}</span>
+                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.firstName  + " " + worker.lastName}</span>
                                         <span className="link"><MDBIcon className="icon" icon="trash" 
-                                        onClick={()=>{this.clickDeleteWorkerFilter(index, this.state.filteredList)}}/>
+                                        onClick={()=>{this.clickDeleteWorker(worker)}}/>
                                         </span>
-                                        <span className="link"><MDBIcon className="icon" icon="edit"/></span>
+                                        <span className="link"><MDBIcon className="icon" icon="edit" onClick={()=>{this.props.edit(worker)}}/></span>
                                     </MDBListGroupItem>
                                 );
                             })}

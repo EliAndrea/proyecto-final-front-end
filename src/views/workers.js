@@ -8,7 +8,6 @@ const positions = ["Agente encubierto", "Mascota", "Mago"];
 
 const workers = [
         {
-            id: 1,
             firstName: "Chewy",
             lastName: "Asdf",
             email: "chewy@asdf.cl",
@@ -16,19 +15,18 @@ const workers = [
             position: positions[0]
         },
         {
-            id: 2,
             firstName: "Bilbo",
             lastName: "Asdf",
-            email: "bilbito@asdf.com"
+            email: "bilbito@asdf.com",
+            phone: "+765465654654",
+            position: positions[1]
         },
         {
-            id: 3,
             firstName: "Yoshi",
             lastName: "Asdf",
             email: "yoshi@asdf.com"
         },
         {
-            id: 4,
             firstName: "Gandalf",
             lastName: "Asdf",
             email: "thewhite@asdf.com"
@@ -38,15 +36,11 @@ class Workers extends React.Component{
     constructor(){
         super();
         this.state = {
-            addWorker: false,
-            showWorker: false,
-            editWorker: false,
+            list: workers,
+            form: "",
             titulo: "",
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            position: "Cargo"
+            position: "Cargo",
+            worker: {}
         };
         this.clickAddWorker = this.clickAddWorker.bind(this);
         this.clickShowWorker = this.clickShowWorker.bind(this);
@@ -56,82 +50,60 @@ class Workers extends React.Component{
     //Función para mostrar formulario de añadir trabajador
     clickAddWorker(){
         this.setState({
-            addWorker: true,
-            showWorker: false,
-            editWorker: false,
+            form: "addWorker",
             titulo: "Agregar nuevo trabajador",
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            position: "Cargo"
+            worker: {}
         });
     }
     //Función para mostrar formularios con datos de trabajador
-    clickShowWorker(index){
+    clickShowWorker(worker){
         this.setState({
-            addWorker: false,
-            showWorker: true,
-            editWorker: false,
+            form: "showWorker",
             titulo: "Datos trabajador",
-            firstName: workers[index].firstName,
-            lastName: workers[index].lastName,
-            email: workers[index].email,
-            phone: workers[index].phone,
-            position: workers[index].position
+            worker: worker
         });
     }
     //Función para mostrar formularios para editar datos de trabajador seleccionado
-    clickEditWorker(index){
+    clickEditWorker(worker){
         this.setState({
-            addWorker: false,
-            showWorker: false,
-            editWorker: true,
+            form: "editWorker",
             titulo: "Editar datos trabajador",
-            firstName: workers[index].firstName,
-            lastName: workers[index].lastName,
-            email: workers[index].email,
-            phone: workers[index].phone,
-            position: workers[index].position
+            worker: worker
         });
-        
     }
     //Función para diferenciar entre añadir nuevo usuario u actualizar usuario existente
-    clickSaveChanges(){
-        if(this.state.addWorker){
-            console.log("Añadiendo nuevo usuario");
+    clickSaveChanges(newWorker){
+        if(this.state.form === "addWorker"){
+            //console.log(newWorker);
+            //console.log("Añadiendo nuevo usuario");
+            let newList = this.state.list;
+            newList.push(newWorker);
+            this.setState({list: newList});
         }
         else{
+            console.log(newWorker);
             console.log("Actualizando datos de usuario");
         }
     }
     render(){
-        let form;
-        //Renderizar formulario para mostrar datos, agregar trabajador o editar datos
-        if(this.state.showWorker){
-            form = <FormWorkers titulo={this.state.titulo} firstName={this.state.firstName} lastName={this.state.lastName} 
-                        email={this.state.email} phone={this.state.phone} position={this.state.position} positionsOptions={positions}
-                        button={this.clickSaveChanges}/>;
-        }
-        else if(this.state.addWorker){
-            form = <FormWorkers titulo={this.state.titulo} position={this.state.position} positionsOptions={positions} button={this.clickSaveChanges}/>;
-        }
-        else if(this.state.editWorker){
-            form = <FormWorkers titulo={this.state.titulo} position={this.state.position} positionsOptions={positions} button={this.clickSaveChanges}/>;
-        }
+        let worker = this.state.worker;
         return(
             <div>
                 <MyNavbar className= "navbar"/>
                 <MDBContainer>
                     <MDBRow around>
                         <MDBCol sm="12" lg="4">
-                            <ListWorkers list={workers} show={this.clickShowWorker} edit={this.clickEditWorker}/>
+                            <ListWorkers list={this.state.list} show={this.clickShowWorker} edit={this.clickEditWorker}/>
                             <div className="btnNew">
                                 <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
                             </div>
                         </MDBCol>
                         <MDBCol sm="12" lg="7">
-                            {form}
+                            {this.state.form !== "" &&
+                                <FormWorkers titulo={this.state.titulo} firstName={worker.firstName} lastName={worker.lastName} 
+                                    email={worker.email} phone={worker.phone} position={worker.position} positionsOptions={positions}
+                                    button={this.clickSaveChanges} worker={worker}/>
+                            }
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
