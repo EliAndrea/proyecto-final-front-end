@@ -4,12 +4,11 @@ import Login from "./components/login.jsx";
 function App() {
   return (
     <div className="App container-fluid ">
-      <div class="row">
-        <div class="col-md-6 offset-md-3">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
           <Login/>
         </div>
       </div>
-      
     </div>
   );
 }
