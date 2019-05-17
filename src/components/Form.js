@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBInput, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 
-export default class FormWorkers extends React.Component {
+class FormWorkers extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -87,7 +87,7 @@ export default class FormWorkers extends React.Component {
                                 </MDBCol>
                             </MDBRow>
                             <div className="form-group select">
-                                <label className="labelCargo">Cargo</label>
+                                <label className="label">Cargo</label>
                                 <select className="form-control" name="position" id="position" required
                                         onChange={(event)=>{
                                             newWorker.phone = event.target.value;
@@ -112,3 +112,5 @@ export default class FormWorkers extends React.Component {
         );
     }
 }
+
+export default FormWorkers;

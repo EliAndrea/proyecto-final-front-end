@@ -1,7 +1,7 @@
 import React from 'react';
-import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBFormInline, MDBIcon, } from "mdbreact";
+import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBFormInline, MDBIcon } from "mdbreact";
 
-export default class ListWorkers extends React.Component {
+class ListWorkers extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -72,3 +72,5 @@ export default class ListWorkers extends React.Component {
         );
     }
 }
+
+export default ListWorkers;

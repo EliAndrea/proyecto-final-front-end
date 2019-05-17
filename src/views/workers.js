@@ -1,6 +1,6 @@
 import React from 'react';
 import {MDBContainer, MDBRow, MDBCol, MDBBtn} from 'mdbreact';
-import { MyNavbar } from '../components/Navbar.js';
+import MyNavbar from '../components/Navbar.js';
 import ListWorkers from '../components/List.js';
 import FormWorkers from '../components/Form.js';
 
@@ -89,12 +89,13 @@ class Workers extends React.Component{
         let worker = this.state.worker;
         return(
             <div>
-                <MyNavbar className= "navbar"/>
+                {//<MyNavbar className= "navbar"/>
+                }
                 <MDBContainer>
                     <MDBRow around>
                         <MDBCol sm="12" lg="4">
                             <ListWorkers list={this.state.list} show={this.clickShowWorker} edit={this.clickEditWorker}/>
-                            <div className="btnNew">
+                            <div className="btnRight">
                                 <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
                             </div>
                         </MDBCol>

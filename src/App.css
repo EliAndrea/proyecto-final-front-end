@@ -8,7 +8,7 @@
     margin-top: 40px;
     text-align: center;
 }
-.btnNew{
+.btnRight{
     text-align: right;
 }
 .icon{
@@ -19,8 +19,21 @@
     cursor: pointer; 
     cursor: hand;
 }
-.labelCargo{
+.label{
     font-size: 13px;
     font-weight: 300;
     color: #757575;
+}
+.label-shifts{
+    font-size: 16px;
+    font-weight: 300;
+    color: #757575;
+}
+
+.inputShift{
+    margin-top: 20px;
+    text-align: left;
+}
+.cardBody{
+    text-align: center;
 }
