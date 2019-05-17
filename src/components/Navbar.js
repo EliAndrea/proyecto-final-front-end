@@ -27,12 +27,12 @@ class MyNavbar extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Volver al Inicio</NavbarBrand>
+          <NavbarBrand href="/admin/home/">Volver al Inicio</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Trabajadores</NavLink>
+                <NavLink href="/admin/workers/">Trabajadores</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/">Mi Perfil</NavLink>

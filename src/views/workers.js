@@ -24,12 +24,14 @@ const workers = [
         {
             firstName: "Yoshi",
             lastName: "Asdf",
-            email: "yoshi@asdf.com"
+            email: "yoshi@asdf.com",
+            position: positions[1]
         },
         {
             firstName: "Gandalf",
             lastName: "Asdf",
-            email: "thewhite@asdf.com"
+            email: "thewhite@asdf.com",
+            position: positions[2]
         }];
 
 class Workers extends React.Component{
@@ -89,8 +91,7 @@ class Workers extends React.Component{
         let worker = this.state.worker;
         return(
             <div>
-                {//<MyNavbar className= "navbar"/>
-                }
+                <MyNavbar className= "navbar"/>
                 <MDBContainer>
                     <MDBRow around>
                         <MDBCol sm="12" lg="4">
@@ -108,7 +109,6 @@ class Workers extends React.Component{
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
-                {console.log(this.state.worker)}
             </div>
             
         );

@@ -5,30 +5,41 @@ const shiftsTypes = [{name: "Día", beggin: "8:00", ending: "20:00"}, {name: "No
 const workers = ["Chewy", "Bilbo", "Ranita", "Monito", "Yoshi"];
 
 class AddShifts extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            shift: {}
+            shift: {
+                shiftType: shiftsTypes[0],
+                worker: "Chewy"
+            }
         };
-        this.selectShift = this.selectShift.bind(this);
+        this.inputShift = this.inputShift.bind(this);
+        this.inputWorker = this.inputWorker.bind(this);
     }
-    selectShift(event){
+    inputShift(event){
+        let name = event.target.value
+        let shiftTypeSelected = shiftsTypes.find((obj) => {return obj.name === name});
+        let shift = this.state.shift;
+        shift.shiftType = shiftTypeSelected;
+        this.setState({shift: shift});
         
     }
-    
+    inputWorker(event){
+        let shift = this.state.shift;
+        shift.worker = event.target.value;
+        this.setState({shift: shift});    
+    }
     render(){
-        let index = shiftsTypes.indexOf(this.state.shiftType);
-        console.log("index" + index);
-        console.log(this.state.shiftType);
+        let newShift = this.state.shift
         return(
             <div className="inputShift">
                 <MDBRow center>
                     <MDBCol size="2">
                         <div className="form-group">
-                            <label className="label-shifts" for="">Tipo Turno</label>
-                            <select className="form-control" onChange={(e)=>this.selectShift(e)}>
-                                {shiftsTypes.map((shift, index)=>{ console.log(shift);
-                                    return <option value={shift} key={index}>{shift.name}</option>;
+                            <label className="label-shifts">Tipo Turno</label>
+                            <select className="form-control" name="shift" onChange={this.inputShift}>
+                                {shiftsTypes.map((shift, index)=>{console.log(shift)
+                                    return <option value={shift.name} key={index}>{shift.name}</option>;
                                     })
                                 }
                             </select>
@@ -36,10 +47,10 @@ class AddShifts extends React.Component{
                     </MDBCol>
                     <MDBCol size="4">
                         <div className="form-group">
-                            <label className="label-shifts" for="">Trabajador</label>
-                            <select className="form-control" name="worker">
+                            <label className="label-shifts" >Trabajador</label>
+                            <select className="form-control" name="worker" onChange={this.inputWorker}>
                                 {workers.map((worker, index) => {
-                                    return <option key={index}>{worker}</option>;
+                                    return <option value={worker} key={index}>{worker}</option>;
                                 })}
                             </select>
                         </div>
@@ -49,8 +60,9 @@ class AddShifts extends React.Component{
                     </MDBCol>
                 </MDBRow>
                 <div className="btnRight">
-                <MDBBtn color="light-blue" onClick={this.clickNew}>Agregar Turno<MDBIcon icon="user-plus" className="ml-2" /></MDBBtn>
+                <MDBBtn color="light-blue" onClick={()=>this.props.func({ ...newShift })}>Agregar Turno<MDBIcon icon="user-plus" className="ml-2" /></MDBBtn>
                 </div>
+                {console.log(this.state.shift.shiftType)}
             </div>
         );
     }
