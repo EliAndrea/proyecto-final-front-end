@@ -1,9 +1,9 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCol, MDBRow, MDBContainer, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 
-const shiftsTypes = [{name: "Día", beggin: "8:00", ending: "20:00"}, {name: "Noche", beggin: "20:00", ending: "8:00"}];
+//const shiftsTypes = [{name: "Día", beggin: "8:00", ending: "20:00"}, {name: "Noche", beggin: "20:00", ending: "8:00"}];
 const positions = ["Agente encubierto", "Mascota", "Mago"];
-const workers = [
+/*const workers = [
         {
             firstName: "Chewy",
             lastName: "Asdf",
@@ -40,13 +40,12 @@ const shifts = [
         shiftType: shiftsTypes[1],
         worker: workers[1], 
         task: "qwqew"
-    }];
+    }];*/
 
 class ListShifts extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            list: shifts,
             valueFilter: ""
         };
         this.addShift = this.addShift.bind(this);
@@ -57,86 +56,98 @@ class ListShifts extends React.Component{
         this.setState({shifts: list});
     }
     render(){
-        let filteredList = this.state.list.filter((shift) => {
+        /*let filteredList = this.props.list.filter((shift) => {
             let position = shift.worker.position;
             return position === this.state.valueFilter;
-        });
-        let list = this.state.list
-        if(this.state.valueFilter !== ""){
+        });*/
+        let list = this.props.list;
+        /*if(this.state.valueFilter !== ""){
             list = filteredList;
-        }
-        console.log(filteredList);
+        }*/
         return(
-            <MDBContainer>
-                <MDBRow end>
-                    <MDBCol size="3">
-                        <select className="form-control" name="position" onChange={(event)=>this.setState({valueFilter: event.target.value})}>
-                            <option value="">Ver solo...</option>
-                            {positions.map((position, index) => {
-                                return <option key={index} value={position}>{position}</option>;
-                                })
-                            }
-                        </select>
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                    <MDBCol>
-                        <MDBCard className="marginTop">
-                            <MDBCardBody className="cardBody">
-                                <MDBRow>
-                                    <MDBCol size="2">
-                                        <MDBCardTitle>Turno</MDBCardTitle>
-                                        <MDBContainer>
-                                            <MDBListGroup>
-                                                {list.map((shift, index)=>{
-                                                    return <MDBListGroupItem key={index}>{shift.shiftType.name}</MDBListGroupItem>;
-                                                    })
-                                                }
-                                            </MDBListGroup>
-                                        </MDBContainer>
-                                    </MDBCol>
-                                    <MDBCol size="3">
-                                        <MDBCardTitle>Horario</MDBCardTitle>
-                                        <MDBContainer>
-                                            <MDBListGroup>
-                                                {list.map((shift, index)=>{
-                                                    return <MDBListGroupItem key={index}>{
-                                                        shift.shiftType.beggin + " - " + shift.shiftType.ending
-                                                        }
-                                                        </MDBListGroupItem>;
-                                                    })
-                                                }
-                                            </MDBListGroup>
-                                        </MDBContainer>
-                                    </MDBCol>
-                                    <MDBCol size="4">
-                                        <MDBCardTitle>Trabajador</MDBCardTitle>
-                                        <MDBContainer>
-                                            <MDBListGroup>
-                                                {list.map((shift, index)=>{
-                                                    return <MDBListGroupItem key={index}>{shift.worker.firstName}</MDBListGroupItem>;
-                                                    })
-                                                }
-                                            </MDBListGroup>
-                                        </MDBContainer>
-                                    </MDBCol>
-                                    <MDBCol size="3">
-                                        <MDBCardTitle>Tarea</MDBCardTitle>
-                                        <MDBContainer>
-                                            <MDBListGroup>
-                                                {list.map((shift, index)=>{
-                                                    return <MDBListGroupItem key={index}>{shift.task}</MDBListGroupItem>;
-                                                    })
-                                                }
-                                            </MDBListGroup>
-                                        </MDBContainer>
-                                    </MDBCol>
-                                </MDBRow>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+            <div>
+                {this.props.workers.length === 0 ? (
+                <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                ):(
+                <MDBContainer>
+                    <MDBRow end>
+                        <MDBCol size="3">
+                            <select className="form-control" name="position" onChange={(event)=>this.setState({valueFilter: event.target.value})}>
+                                <option value="">Ver solo...</option>
+                                {positions.map((position, index) => {
+                                    return <option key={index} value={position}>{position}</option>;
+                                    })
+                                }
+                            </select>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBCard className="marginTop">
+                                <MDBCardBody className="cardBody">
+                                    <MDBRow>
+                                        <MDBCol size="2">
+                                            <MDBCardTitle>Turno</MDBCardTitle>
+                                            <MDBContainer>
+                                                <MDBListGroup>
+                                                    {list.map((shift, index)=>{
+                                                        return <MDBListGroupItem key={index}>{shift.shift_types_id}</MDBListGroupItem>;
+                                                        })
+                                                    }
+                                                </MDBListGroup>
+                                            </MDBContainer>
+                                        </MDBCol>
+                                        <MDBCol size="3">
+                                            <MDBCardTitle>Horario</MDBCardTitle>
+                                            <MDBContainer>
+                                                <MDBListGroup>
+                                                    {list.map((shift, index)=>{
+                                                        return <MDBListGroupItem key={index}>{
+                                                            shift.shift_types_id
+                                                            }
+                                                            </MDBListGroupItem>;
+                                                        })
+                                                    }
+                                                </MDBListGroup>
+                                            </MDBContainer>
+                                        </MDBCol>
+                                        <MDBCol size="4">
+                                            <MDBCardTitle>Trabajador</MDBCardTitle>
+                                            <MDBContainer>
+                                                <MDBListGroup>
+                                                    {list.map((shift, index)=>{
+                                                        let worker = this.props.workers.find((worker) => {return worker.id === shift.users_id});
+                                                        return(
+                                                            <MDBListGroupItem key={index}>
+                                                                {worker.f_name + " " + worker.l_name}
+                                                            </MDBListGroupItem>
+                                                            );
+                                                        })
+                                                    }
+                                                </MDBListGroup>
+                                            </MDBContainer>
+                                        </MDBCol>
+                                        <MDBCol size="3">
+                                            <MDBCardTitle>Tarea</MDBCardTitle>
+                                            <MDBContainer>
+                                                <MDBListGroup>
+                                                    {list.map((shift, index)=>{
+                                                        return <MDBListGroupItem key={index}>{shift.task}</MDBListGroupItem>;
+                                                        })
+                                                    }
+                                                </MDBListGroup>
+                                            </MDBContainer>
+                                        </MDBCol>
+                                    </MDBRow>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBContainer>
+                )}
+            </div>
         );
     }
 }
