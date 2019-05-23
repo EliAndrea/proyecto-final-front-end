@@ -15,7 +15,6 @@ class UserDay extends React.Component{
         super();
         this.state = {
             date: new Date(),
-            dateString: "",
             shiftsList: []
         };
         this.handleChange = this.handleChange.bind(this);
@@ -24,8 +23,13 @@ class UserDay extends React.Component{
         this.setState({
             date: date
         });
+        this.getShifts(this.state.date);
     }
-    dateToString = (date) =>{
+    componentDidMount(){
+        this.getShifts(this.state.date);
+    }
+    
+    getShifts = (date) => {
         let month = date.getMonth() + 1;
         let day = date.getDate();
         if(day < 10){
@@ -35,22 +39,13 @@ class UserDay extends React.Component{
             month = "0" + month;
         }
         date = date.getFullYear() + "-" + month + "-" + day;
-        this.setState({dateString: date});
         console.log(date);
-    }
-    componentDidMount(){
-        this.getShifts(this.state.dateString);
-    }
-    
-    getShifts = (date) => {
-        this.dateToString(this.state.date);
         let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/" + date;
         fetch(url)
             .then((response) => {
                 return response.json();
             })
             .then((responseJSON) => {
-                console.log(responseJSON);
                 this.setState({shiftsList: responseJSON});
             });
     }
@@ -71,7 +66,7 @@ class UserDay extends React.Component{
                 </MDBContainer>
                 <Context.Consumer>
                     {(context) => {
-                        return <ListShifts list={this.state.shiftsList} workers={context.models.workersList}/>;
+                        return <ListShifts list={this.state.shiftsList} models={context.models} actions={context.actions}/>;
                         }
                     }
                 </Context.Consumer>

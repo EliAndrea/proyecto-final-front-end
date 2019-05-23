@@ -9,21 +9,63 @@ class ThemeProvider extends React.Component{
 			models: 
 				{
 					workersList: [],
+					shiftsTypes: [],
+					positions: [],
 				},
 			actions:
 				{
-					updateWorkersList: (newModel) =>{
+					updateWorkersList: () =>{
+						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/")
+							.then((response) => {
+	            				return response.json();
+	            				})
+	        				.then((responseJSON) => {
+	        					let models = this.state.models;
+								models.workersList = responseJSON;
+								this.setState({models: models});
+	            				});
+					},
+					updateShiftsTypes: () => {
+						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shift-types/")
+							.then((response) => {
+								return response.json();
+								})
+							.then((responseJSON) => {
+								let models = this.state.models;
+								models.shiftsTypes = responseJSON;
+								this.setState({models: models});
+								});
+						
+					},
+					updatePositions: () => {
+						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/positions/")
+							.then((response) => {
+								return response.json();
+								})
+							.then((responseJSON) => {
+								let models = this.state.models;
+								models.positions = responseJSON;
+								this.setState({model: models});
+								});
+
+					},
+					assignPositionForWorker: () => {
 						let models = this.state.models;
-						models.workersList = newModel;
+						let workersList = models.workersList.map((worker)=>{
+							let position = models.positions.find((position)=>{return position.id === worker.positions_id});
+							return worker.position = position.position_name;
+							});
+						models.workersList = workersList;
 						this.setState({models: models});
-					}				
-			    }
+			    	},
+			    	
+				}
 		};
 	}
 	componentDidMount(){
-		this.getWorkersList();
+		this.state.actions.assignPositionForWorker();
 	}
-	getWorkersList = () => {
+	/*getWorkersList = () => {
 		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/")
 			.then((response) => {
 	            return response.json();
@@ -32,6 +74,25 @@ class ThemeProvider extends React.Component{
 	            this.state.actions.updateWorkersList(responseJSON);
 	            });
 	}
+	getShiftsTypes = () => {
+		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shift-types/")
+			.then((response) => {
+				return response.json();
+			})
+			.then((responseJSON) => {
+				this.state.actions.updateShiftsTypes(responseJSON);
+			});
+	}
+	getPositions = () => {
+		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/positions/")
+			.then((response) => {
+				return response.json();
+			})
+			.then((responseJSON) => {
+				this.state.actions.updatePositions(responseJSON);
+			});
+	}*/
+	
 	render(){
 		return(
 			<Context.Provider value={this.state}>
@@ -42,29 +103,3 @@ class ThemeProvider extends React.Component{
 }
 
 export default ThemeProvider;
-
-/*const Store = PassedComponent => {
-	class StoreWrapper extends React.Component {
-		constructor(props) {
-			super(props);
-			this.state = getState({
-				getStore: () => this.state.store,
-				setStore: updatedStore =>
-					this.setState({
-						store: Object.assign(this.state.store, updatedStore)
-					})
-			});
-		}
-
-		render() {
-			return (
-				<Context.Provider value={this.state}>
-					<PassedComponent {...this.props} />
-				</Context.Provider>
-			);
-		}
-	}
-	return StoreWrapper;
-};
-
-export default Store;*/

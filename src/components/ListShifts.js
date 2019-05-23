@@ -1,52 +1,12 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCol, MDBRow, MDBContainer, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 
-//const shiftsTypes = [{name: "Día", beggin: "8:00", ending: "20:00"}, {name: "Noche", beggin: "20:00", ending: "8:00"}];
-const positions = ["Agente encubierto", "Mascota", "Mago"];
-/*const workers = [
-        {
-            firstName: "Chewy",
-            lastName: "Asdf",
-            email: "chewy@asdf.cl",
-            phone: "+12345667",
-            position: positions[0]
-        },
-        {
-            firstName: "Bilbo",
-            lastName: "Asdf",
-            email: "bilbito@asdf.com",
-            phone: "+765465654654",
-            position: positions[1]
-        },
-        {
-            firstName: "Yoshi",
-            lastName: "Asdf",
-            email: "yoshi@asdf.com",
-            position: positions[1]
-        },
-        {
-            firstName: "Gandalf",
-            lastName: "Asdf",
-            email: "thewhite@asdf.com",
-            position: positions[2]
-        }];
-const shifts = [
-    {
-        shiftType: shiftsTypes[0],
-        worker: workers[0], 
-        task: "asdf"
-    }, 
-    {
-        shiftType: shiftsTypes[1],
-        worker: workers[1], 
-        task: "qwqew"
-    }];*/
-
 class ListShifts extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            valueFilter: ""
+            valueFilter: "",
+            filteredList: []
         };
         this.addShift = this.addShift.bind(this);
     }
@@ -55,18 +15,27 @@ class ListShifts extends React.Component{
         list.push(newShift);
         this.setState({shifts: list});
     }
+    componentDidMount(){
+        this.props.actions.updateWorkersList();
+        this.props.actions.updateShiftsTypes();
+        this.props.actions.updatePositions();
+    }
+    
     render(){
-        /*let filteredList = this.props.list.filter((shift) => {
-            let position = shift.worker.position;
-            return position === this.state.valueFilter;
-        });*/
+        let workers = this.props.models.workersList;
+        let types = this.props.models.shiftsTypes;
+        let positions = this.props.models.positions;
         let list = this.props.list;
-        /*if(this.state.valueFilter !== ""){
+        if(this.state.valueFilter !== "" && workers.length !== 0){
+            let filteredList = list.filter((shift) => {
+            let worker = workers.find((worker) => {return worker.id === shift.users_id});
+            return worker.positions_id == this.state.valueFilter;
+            });
             list = filteredList;
-        }*/
+        }
         return(
             <div>
-                {this.props.workers.length === 0 ? (
+                {(workers.length === 0) || (types.length === 0) ? (
                 <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
@@ -75,9 +44,9 @@ class ListShifts extends React.Component{
                     <MDBRow end>
                         <MDBCol size="3">
                             <select className="form-control" name="position" onChange={(event)=>this.setState({valueFilter: event.target.value})}>
-                                <option value="">Ver solo...</option>
+                                <option value="">Todos</option>
                                 {positions.map((position, index) => {
-                                    return <option key={index} value={position}>{position}</option>;
+                                    return <option key={index} value={position.id}>{position.position_name}</option>;
                                     })
                                 }
                             </select>
@@ -93,7 +62,8 @@ class ListShifts extends React.Component{
                                             <MDBContainer>
                                                 <MDBListGroup>
                                                     {list.map((shift, index)=>{
-                                                        return <MDBListGroupItem key={index}>{shift.shift_types_id}</MDBListGroupItem>;
+                                                        let type = types.find((type) => {return type.id === shift.shift_types_id}); 
+                                                        return <MDBListGroupItem key={index}>{type.shift_name}</MDBListGroupItem>;
                                                         })
                                                     }
                                                 </MDBListGroup>
@@ -104,10 +74,10 @@ class ListShifts extends React.Component{
                                             <MDBContainer>
                                                 <MDBListGroup>
                                                     {list.map((shift, index)=>{
-                                                        return <MDBListGroupItem key={index}>{
-                                                            shift.shift_types_id
-                                                            }
-                                                            </MDBListGroupItem>;
+                                                        let type = types.find((type) => {return type.id === shift.shift_types_id});
+                                                        return (<MDBListGroupItem key={index}>
+                                                            {type.shift_start + " - " + type.shift_end}
+                                                            </MDBListGroupItem>);
                                                         })
                                                     }
                                                 </MDBListGroup>
@@ -118,7 +88,7 @@ class ListShifts extends React.Component{
                                             <MDBContainer>
                                                 <MDBListGroup>
                                                     {list.map((shift, index)=>{
-                                                        let worker = this.props.workers.find((worker) => {return worker.id === shift.users_id});
+                                                        let worker = workers.find((worker) => {return worker.id === shift.users_id});
                                                         return(
                                                             <MDBListGroupItem key={index}>
                                                                 {worker.f_name + " " + worker.l_name}
