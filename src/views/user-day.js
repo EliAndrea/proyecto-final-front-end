@@ -20,10 +20,7 @@ class UserDay extends React.Component{
         this.handleChange = this.handleChange.bind(this);
     }
     handleChange = (date) => {
-        this.setState({
-            date: date
-        });
-        this.getShifts(this.state.date);
+        this.setState({date: date}, ()=>{this.getShifts(this.state.date)});
     }
     componentDidMount(){
         this.getShifts(this.state.date);
@@ -53,7 +50,7 @@ class UserDay extends React.Component{
         let date = this.state.date;
         return (
             <div>
-                <MyNavbar />
+                <MyNavbar role="user"/>
                 <MDBContainer>
                     <MDBRow className="marginTop">
                         <MDBCol size="3">

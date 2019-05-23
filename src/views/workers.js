@@ -91,7 +91,7 @@ class Workers extends React.Component{
         let worker = this.state.worker;
         return(
             <div>
-                <MyNavbar className= "navbar"/>
+                <MyNavbar className= "navbar" role="admin"/>
                 <MDBContainer>
                     <MDBRow around>
                         <MDBCol sm="12" lg="4">

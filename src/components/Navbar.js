@@ -25,25 +25,31 @@ class MyNavbar extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/admin/home/">Volver al Inicio</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/admin/workers/">Trabajadores</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/">Mi Perfil</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/">Cerrar Sesión</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+        <div>
+            <Navbar color="light" light expand="md">
+                <NavbarBrand href="/admin/home/">Volver al Calendario</NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        {this.props.role === "admin" ? (
+                        <NavItem>
+                            <NavLink href="/admin/workers/">Trabajadores</NavLink>
+                        </NavItem>
+                        ):(
+                        <NavItem>
+                            <NavLink href="#">Cambio de Turno</NavLink>
+                        </NavItem>
+                        )}
+                        <NavItem>
+                            <NavLink href="/">Mi Perfil</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/">Cerrar Sesión</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        </div>
     );
   }
 }
