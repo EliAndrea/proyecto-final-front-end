@@ -3,10 +3,11 @@ import {MDBContainer, MDBRow, MDBCol, MDBBtn} from 'mdbreact';
 import MyNavbar from '../components/Navbar.js';
 import ListWorkers from '../components/List.js';
 import FormWorkers from '../components/Form.js';
+import {Context} from '../context/themeProvider.js';
 
 const positions = ["Agente encubierto", "Mascota", "Mago"];
 
-const workers = [
+/*const workers = [
         {
             firstName: "Chewy",
             lastName: "Asdf",
@@ -32,17 +33,17 @@ const workers = [
             lastName: "Asdf",
             email: "thewhite@asdf.com",
             position: positions[2]
-        }];
+        }];*/
 
 class Workers extends React.Component{
     constructor(){
         super();
         this.state = {
-            list: workers,
+            //list: workers,
             form: "",
             titulo: "",
-            position: "Cargo",
-            worker: {}
+            //position: "Cargo",
+            //worker: {}
         };
         this.clickAddWorker = this.clickAddWorker.bind(this);
         this.clickShowWorker = this.clickShowWorker.bind(this);
@@ -88,31 +89,38 @@ class Workers extends React.Component{
         }
     }
     render(){
-        let worker = this.state.worker;
         return(
-            <div>
-                <MyNavbar className= "navbar" role="admin"/>
-                <MDBContainer>
-                    <MDBRow around>
-                        <MDBCol sm="12" lg="4">
-                            <ListWorkers list={this.state.list} show={this.clickShowWorker} edit={this.clickEditWorker}/>
-                            <div className="btnRight">
-                                <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
-                            </div>
-                        </MDBCol>
-                        <MDBCol sm="12" lg="7">
-                            {this.state.form !== "" &&
-                                <FormWorkers titulo={this.state.titulo} firstName={worker.firstName} lastName={worker.lastName} 
-                                    email={worker.email} phone={worker.phone} position={worker.position} positionsOptions={positions}
-                                    button={this.clickSaveChanges} worker={worker}/>
-                            }
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
-            </div>
-            
+            <Context.Consumer>
+                {(context) => {
+                    return (
+                        <div>
+                            <MyNavbar className= "navbar" role="admin"/>
+                            <MDBContainer>
+                                <MDBRow around>
+                                    <MDBCol sm="12" lg="4">
+                                        <ListWorkers list={context.models.workersList} actions={context.actions} 
+                                            show={this.clickShowWorker} edit={this.clickEditWorker} />
+                                        <div className="btnRight">
+                                            <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
+                                        </div>
+                                    </MDBCol>
+                                    <MDBCol sm="12" lg="7">
+                                        {this.state.form !== "" &&
+                                            <FormWorkers titulo={this.state.titulo} workers={context.models.workersList}/>
+                                        }
+                                    </MDBCol>
+                                </MDBRow>
+                            </MDBContainer>
+                        </div>
+                    )}
+                }
+            </Context.Consumer>
         );
     }
 }
 
 export default Workers;
+
+/*firstName={worker.firstName} lastName={worker.lastName} 
+email={worker.email} phone={worker.phone} position={worker.position} positionsOptions={positions}
+button={this.clickSaveChanges} worker={worker}*/

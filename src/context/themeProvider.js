@@ -26,7 +26,7 @@ class ThemeProvider extends React.Component{
 	            				});
 					},
 					updateShiftsTypes: () => {
-						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shift-types/")
+						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts-types/")
 							.then((response) => {
 								return response.json();
 								})
@@ -49,23 +49,11 @@ class ThemeProvider extends React.Component{
 								});
 
 					},
-					assignPositionForWorker: () => {
-						let models = this.state.models;
-						let workersList = models.workersList.map((worker)=>{
-							let position = models.positions.find((position)=>{return position.id === worker.positions_id});
-							return worker.position = position.position_name;
-							});
-						models.workersList = workersList;
-						this.setState({models: models});
-			    	},
-			    	
 				}
 		};
 	}
-	componentDidMount(){
-		this.state.actions.assignPositionForWorker();
-	}
-	/*getWorkersList = () => {
+	/*componentDidMount(){
+	getWorkersList = () => {
 		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/")
 			.then((response) => {
 	            return response.json();

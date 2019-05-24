@@ -9,25 +9,40 @@ class ListWorkers extends React.Component {
             query: "",
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.clickDeleteWorker = this.clickDeleteWorker.bind(this);
     }
-    //Función para realizar busqueda
+    //Función para realizar búsqueda dentro de la lista de usuarios
     handleInputChange(event){
         this.setState({
             query: event.target.value,
             });
     }
     //Función para eliminar trabajadores en lista completa
-    clickDeleteWorker(worker){
+    /*clickDeleteWorker(worker){
         let list = this.state.list;
         let index = list.indexOf(worker);
         list.splice(index, 1);
         this.setState({list: list});
+    }*/
+    
+    //Función para eliminar usuario de la base de datos
+    deleteWorker = (id) => {
+        console.log(id);
+        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/" + id;
+		fetch(url, {method: 'DELETE'})
+		    .then((resp)=> {
+		        console.log(resp);
+		        this.props.actions.updateWorkersList();
+		    })
+		    .catch((err)=>{alert(err)});
+	}
+	//Se carga la lista de trabajadores
+    componentDidMount(){
+        this.props.actions.updateWorkersList();   
     }
-
     render() {
+        let list = this.props.list;
         const filteredList = this.props.list.filter(element => {
-            let name = element.firstName + " " + element.lastName;
+            let name = element.f_name + " " + element.l_name;
             return name.toLowerCase().includes(this.state.query.toLowerCase());
         });
         return (
@@ -40,12 +55,12 @@ class ListWorkers extends React.Component {
                     <MDBContainer>
                         {this.state.query === "" ? (
                         <MDBListGroup>
-                            {this.state.list.map((worker, index) => {
+                            {list.map((worker, index) => {
                                 return( 
                                     <MDBListGroupItem key={index}>
-                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.firstName + " " + worker.lastName}</span>
+                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.f_name + " " + worker.l_name}</span>
                                         <span className="link"><MDBIcon className="icon" icon="trash" 
-                                            onClick={()=>{this.clickDeleteWorker(worker)}}/>
+                                            onClick={()=>{this.deleteWorker(worker.id)}}/>
                                         </span>
                                         <span className="link"><MDBIcon className="icon" icon="edit" onClick={()=>{this.props.edit(worker)}}/></span>
                                     </MDBListGroupItem>
@@ -57,7 +72,7 @@ class ListWorkers extends React.Component {
                             {filteredList.map((worker, index) => {
                                 return( 
                                     <MDBListGroupItem key={index}>
-                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.firstName  + " " + worker.lastName}</span>
+                                        <span onClick={()=>{this.props.show(worker)}} className="link">{worker.f_name  + " " + worker.l_name}</span>
                                         <span className="link"><MDBIcon className="icon" icon="trash" 
                                         onClick={()=>{this.clickDeleteWorker(worker)}}/>
                                         </span>

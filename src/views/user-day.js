@@ -36,7 +36,6 @@ class UserDay extends React.Component{
             month = "0" + month;
         }
         date = date.getFullYear() + "-" + month + "-" + day;
-        console.log(date);
         let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/" + date;
         fetch(url)
             .then((response) => {
