@@ -31,7 +31,7 @@ class MyNavbar extends React.Component {
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        {this.props.role === "admin" ? (
+                        {this.props.user_type === "admin" ? (
                         <NavItem>
                             <NavLink href="/admin/workers/">Trabajadores</NavLink>
                         </NavItem>

@@ -5,39 +5,88 @@ class FormWorkers extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            worker: this.props.worker,
+            worker: this.props.worker
         };
     }
+    clickSaveChanges= () => {
+        if (this.props.form === "addWorker"){
+            this.addNewWorker();
+            this.props.hide();
+        }
+        else if (this.props.form === "editWorker"){
+            console.log("modificando usuario");
+            this.updateWorker();
+            this.props.hide();
+        }
+    }
+    addNewWorker = () => {
+        let worker = this.state.worker;
+        worker.role = "user";
+        fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/", {
+            method: 'POST',
+            body: JSON.stringify(worker),
+            headers:{
+                'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+            .then(response => {
+                console.log(response);
+                this.props.actions.updateWorkersList();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    updateWorker = () => {
+        let worker = this.state.worker;
+        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/" + worker.id;
+        delete worker.id;
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(worker),
+            headers:{
+                'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+            .then(response => {
+                console.log(response);
+                this.props.actions.updateWorkersList();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        
+    
     render(){
-        let newWorker = this.state.worker; 
+        let worker = this.props.worker;
+        //Se busca el objeto posición para reemplazar el ID
+        let position = this.props.positions.find((position)=>{return position.id === worker.positions_id});
         return (
             <div>
-                {this.props.titulo === "Datos trabajador" ? (
+                {this.props.form === "showWorker" ? (
                 <MDBCard className="formWorkers">
                     <MDBCardBody>
                         <MDBCardTitle>{this.props.titulo}</MDBCardTitle>
                         <form>
                             <MDBRow>
                                 <MDBCol size="6">
-                                    <MDBInput label="Nombre" value={this.props.firstName} disabled/>
+                                    <MDBInput label="Nombre" value={worker.f_name} disabled/>
                                 </MDBCol>
                                 <MDBCol size="6">
-                                    <MDBInput label="Apellido" value={this.props.lastName} disabled/>
+                                    <MDBInput label="Apellido" value={worker.l_name} disabled/>
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Email" value={this.props.email} disabled/>
+                                    <MDBInput label="Email" value={worker.email} disabled/>
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Número de Teléfono" value={this.props.phone} disabled/>
+                                    <MDBInput label="Número de Teléfono" value={worker.phone_number} disabled/>
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Cargo" value={this.props.position} disabled/>
+                                    <MDBInput label="Cargo" value={position.position_name} disabled/>
                                 </MDBCol>
                             </MDBRow>
                         </form>
@@ -47,62 +96,62 @@ class FormWorkers extends React.Component {
                 <MDBCard className="formWorkers">
                     <MDBCardBody>
                         <MDBCardTitle>{this.props.titulo}</MDBCardTitle>
-                        <form onSubmit={()=>{this.props.button(this.state.worker)}}>
+                        <form>
                             <MDBRow>
                                 <MDBCol size="6">
-                                    <MDBInput label="Nombre" value={this.props.firstName} maxLength="20" minLength="3" required
+                                    <MDBInput label="Nombre" value={worker.f_name} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
-                                            newWorker.firstName = event.target.value;
-                                            this.setState({worker: newWorker});
+                                            worker.f_name = event.target.value;
+                                            this.setState({worker: worker});
                                         }}
                                     />
                                 </MDBCol>
                                 <MDBCol size="6">
-                                    <MDBInput label="Apellido" value={this.props.lastName} maxLength="20" minLength="3" required
+                                    <MDBInput label="Apellido" value={worker.l_name} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
-                                            newWorker.lastName = event.target.value;
-                                            this.setState({worker: newWorker});
+                                            worker.l_name = event.target.value;
+                                            this.setState({worker: worker});
                                         }}
                                     />
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Email" value={this.props.email} type="email" required
+                                    <MDBInput label="Email" value={worker.email} type="email" required
                                         onChange={(event)=>{
-                                            newWorker.email = event.target.value;
-                                            this.setState({worker: newWorker});
+                                            worker.email = event.target.value;
+                                            this.setState({worker: worker});
                                         }}
                                     />
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol size="12">
-                                    <MDBInput label="Número de Teléfono" value={this.props.phone} maxLength="20" minLength="3" required
+                                    <MDBInput label="Número de Teléfono" value={worker.phone_number} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
-                                            newWorker.phone = event.target.value;
-                                            this.setState({worker: newWorker});
+                                            worker.phone_number = event.target.value;
+                                            this.setState({worker: worker});
                                         }}
                                     />
                                 </MDBCol>
                             </MDBRow>
                             <div className="form-group select">
                                 <label className="label">Cargo</label>
-                                <select className="form-control" name="position" id="position" required
+                                <select className="form-control" name="position" id="position" value={worker.positions_id} required
                                         onChange={(event)=>{
-                                            newWorker.phone = event.target.value;
-                                            this.setState({worker: newWorker});
+                                            worker.positions_id = event.target.value;
+                                            this.setState({worker: worker});
                                         }}
                                 >
                                     <option value="">Seleccione un cargo</option>
-                                    {this.props.positionsOptions.map((option, index) =>{
-                                        return <option key={index} value={option}> {option} </option>;
+                                    {this.props.positions.map((option, index) =>{
+                                        return <option key={index} value={option.id}> {option.position_name} </option>;
                                     })
                                 }
                                 </select>
                             </div>
                             <div className="btnAddWorker">
-                                <MDBBtn color="deep-purple" type="submit">Guardar cambios</MDBBtn>
+                                <MDBBtn color="deep-purple" onClick={this.clickSaveChanges}>Guardar cambios</MDBBtn>
                             </div>
                         </form>
                     </MDBCardBody>

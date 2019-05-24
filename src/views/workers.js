@@ -5,61 +5,33 @@ import ListWorkers from '../components/List.js';
 import FormWorkers from '../components/Form.js';
 import {Context} from '../context/themeProvider.js';
 
-const positions = ["Agente encubierto", "Mascota", "Mago"];
-
-/*const workers = [
-        {
-            firstName: "Chewy",
-            lastName: "Asdf",
-            email: "chewy@asdf.cl",
-            phone: "+12345667",
-            position: positions[0]
-        },
-        {
-            firstName: "Bilbo",
-            lastName: "Asdf",
-            email: "bilbito@asdf.com",
-            phone: "+765465654654",
-            position: positions[1]
-        },
-        {
-            firstName: "Yoshi",
-            lastName: "Asdf",
-            email: "yoshi@asdf.com",
-            position: positions[1]
-        },
-        {
-            firstName: "Gandalf",
-            lastName: "Asdf",
-            email: "thewhite@asdf.com",
-            position: positions[2]
-        }];*/
-
 class Workers extends React.Component{
     constructor(){
         super();
         this.state = {
-            //list: workers,
-            form: "",
+            form: "empty",
             titulo: "",
-            //position: "Cargo",
-            //worker: {}
+            worker: {}
         };
         this.clickAddWorker = this.clickAddWorker.bind(this);
         this.clickShowWorker = this.clickShowWorker.bind(this);
         this.clickEditWorker = this.clickEditWorker.bind(this);
-        this.clickSaveChanges = this.clickSaveChanges.bind(this);
     }
     //Función para mostrar formulario de añadir trabajador
-    clickAddWorker(){
+    clickAddWorker = () =>{
         this.setState({
             form: "addWorker",
             titulo: "Agregar nuevo trabajador",
-            worker: {}
+            worker: {
+                f_name: "",
+                l_name: "",
+                email: "",
+                phone_number: "",
+            }
         });
     }
     //Función para mostrar formularios con datos de trabajador
-    clickShowWorker(worker){
+    clickShowWorker = (worker) => {
         this.setState({
             form: "showWorker",
             titulo: "Datos trabajador",
@@ -67,26 +39,18 @@ class Workers extends React.Component{
         });
     }
     //Función para mostrar formularios para editar datos de trabajador seleccionado
-    clickEditWorker(worker){
+    clickEditWorker = (worker) =>{
         this.setState({
             form: "editWorker",
             titulo: "Editar datos trabajador",
             worker: worker
         });
     }
-    //Función para diferenciar entre añadir nuevo usuario u actualizar usuario existente
-    clickSaveChanges(newWorker){
-        if(this.state.form === "addWorker"){
-            //console.log(newWorker);
-            //console.log("Añadiendo nuevo usuario");
-            let newList = this.state.list;
-            newList.push(newWorker);
-            this.setState({list: newList});
-        }
-        else{
-            console.log(newWorker);
-            console.log("Actualizando datos de usuario");
-        }
+    hideForm = () => {
+        this.setState({
+           form: "empty",
+           worker: {}
+        });
     }
     render(){
         return(
@@ -94,19 +58,20 @@ class Workers extends React.Component{
                 {(context) => {
                     return (
                         <div>
-                            <MyNavbar className= "navbar" role="admin"/>
+                            <MyNavbar className= "navbar" user_type="admin"/>
                             <MDBContainer>
                                 <MDBRow around>
                                     <MDBCol sm="12" lg="4">
-                                        <ListWorkers list={context.models.workersList} actions={context.actions} 
+                                        <ListWorkers models={context.models} actions={context.actions} 
                                             show={this.clickShowWorker} edit={this.clickEditWorker} />
                                         <div className="btnRight">
                                             <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
                                         </div>
                                     </MDBCol>
                                     <MDBCol sm="12" lg="7">
-                                        {this.state.form !== "" &&
-                                            <FormWorkers titulo={this.state.titulo} workers={context.models.workersList}/>
+                                        {this.state.form !== "empty" &&
+                                            <FormWorkers titulo={this.state.titulo} positions={context.models.positions} form={this.state.form}
+                                            worker={Object.assign({}, this.state.worker)} actions={context.actions} hide={this.hideForm} />
                                         }
                                     </MDBCol>
                                 </MDBRow>
@@ -120,7 +85,3 @@ class Workers extends React.Component{
 }
 
 export default Workers;
-
-/*firstName={worker.firstName} lastName={worker.lastName} 
-email={worker.email} phone={worker.phone} position={worker.position} positionsOptions={positions}
-button={this.clickSaveChanges} worker={worker}*/

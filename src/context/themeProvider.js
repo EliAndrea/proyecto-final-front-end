@@ -11,6 +11,7 @@ class ThemeProvider extends React.Component{
 					workersList: [],
 					shiftsTypes: [],
 					positions: [],
+					showAlert: false
 				},
 			actions:
 				{

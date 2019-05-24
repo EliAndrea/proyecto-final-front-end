@@ -49,7 +49,7 @@ class UserDay extends React.Component{
         let date = this.state.date;
         return (
             <div>
-                <MyNavbar role="user"/>
+                <MyNavbar user_type="user"/>
                 <MDBContainer>
                     <MDBRow className="marginTop">
                         <MDBCol size="3">

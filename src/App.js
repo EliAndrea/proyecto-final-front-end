@@ -6,7 +6,7 @@ import Day from './views/day.js';
 import Workers from './views/workers.js';
 import UserDay from './views/user-day.js';
 import ThemeProvider from "./context/themeProvider.js";
-import Login from "./views/login.js";
+//import Login from "./views/login.js";
 
 function App() {
     return (
