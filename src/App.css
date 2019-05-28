@@ -7,14 +7,10 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
-
-alert{
-  
+#aparecer{
+  text-align:right;
 }
 
-.App {
-  text-align: center;
-}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

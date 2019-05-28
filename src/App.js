@@ -1,16 +1,33 @@
 import React from 'react';
-import './App.css';  
-import Login from "./components/login.jsx";
+import './App.css';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from './views/home.js';
+import Day from './views/day.js';
+import Workers from './views/workers.js';
+//import UserDay from './views/user-day.js';
+//import ThemeProvider from "./context/themeProvider.js";
+import Login from "./views/login.js";
+import Profile from './views/profile.js';
+
 function App() {
-  return (
-    <div className="App container-fluid ">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <Login/>
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        //<ThemeProvider>
+            <Router>
+                <div className="App">
+                    <Switch>
+                        <Route path="/" exact component={Login} />
+                        <Route path="/profile" exact component={Profile} />
+                        <Route path="/admin/home/" component={Home} />
+                        <Route path="/admin/workers/" component={Workers} />
+                        <Route path="/admin/day" component={Day} />
+                       {/*<Route path="/user/day" component={UserDay} />*/}
+                    </Switch>
+                    {/*<Route path="/user/home/" component={HomeUser} />
+                    <Route path="/user/change/" component={Change} />*/}
+                </div>
+            </Router>
+        //</ThemeProvider>
+    );
 }
 
 export default App;
