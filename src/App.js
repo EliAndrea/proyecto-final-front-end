@@ -5,7 +5,7 @@ import MyCalendar from './components/Calendara.jsx'
 function App() {
   return (
     <div className="App">
-      <div>
+      <div className="center">
           <MyCalendar/>
       </div>
     </div>
