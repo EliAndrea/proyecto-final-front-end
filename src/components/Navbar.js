@@ -33,7 +33,7 @@ class MyNavbar extends React.Component {
                     <Nav className="ml-auto" navbar>
                         {this.props.user_type === "admin" ? (
                         <NavItem>
-                            <NavLink href="/admin/workers/">Trabajadores</NavLink>
+                            <NavLink href="/workers/">Trabajadores</NavLink>
                         </NavItem>
                         ):(
                         <NavItem>

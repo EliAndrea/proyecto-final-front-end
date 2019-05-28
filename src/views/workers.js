@@ -1,7 +1,7 @@
 import React from 'react';
 import {MDBContainer, MDBRow, MDBCol, MDBBtn} from 'mdbreact';
 import MyNavbar from '../components/Navbar.js';
-import ListWorkers from '../components/List.js';
+import ListWorkers from '../components/ListWorkers.js';
 import FormWorkers from '../components/Form.js';
 import {Context} from '../context/themeProvider.js';
 

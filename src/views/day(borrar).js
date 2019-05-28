@@ -1,6 +1,6 @@
 import React from 'react';
 import MyNavbar from '../components/Navbar.js';
-import ListShifts from '../components/ListShifts.js';
+import CardShifts from '../components/CardShifts.js';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,46 +10,24 @@ import { Context } from '../context/themeProvider.js';
 const month = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 registerLocale('es', es);
 
-class UserDay extends React.Component{
+class Day extends React.Component{
     constructor(){
         super();
         this.state = {
             date: new Date(),
-            shiftsList: []
+            shiftList: []
         };
         this.handleChange = this.handleChange.bind(this);
     }
+    //Función que permite seleccionar otro día
     handleChange = (date) => {
-        this.setState({date: date}, ()=>{this.getShifts(this.state.date)});
-    }
-    componentDidMount(){
-        this.getShifts(this.state.date);
-    }
-    
-    getShifts = (date) => {
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        if(day < 10){
-            day = "0" + day;
-        }
-        if(month < 10){
-            month = "0" + month;
-        }
-        date = date.getFullYear() + "-" + month + "-" + day;
-        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/" + date;
-        fetch(url)
-            .then((response) => {
-                return response.json();
-            })
-            .then((responseJSON) => {
-                this.setState({shiftsList: responseJSON});
-            });
+        this.setState({date: date});
     }
     render(){
         let date = this.state.date;
         return (
             <div>
-                <MyNavbar user_type="user"/>
+                <MyNavbar user_type="admin"/>
                 <MDBContainer>
                     <MDBRow className="marginTop">
                         <MDBCol size="3">
@@ -62,13 +40,13 @@ class UserDay extends React.Component{
                 </MDBContainer>
                 <Context.Consumer>
                     {(context) => {
-                        return <ListShifts list={this.state.shiftsList} models={context.models} actions={context.actions}/>;
-                        }
+                        return <CardShifts />
                     }
+                }
                 </Context.Consumer>
             </div>
             );
     }
 }
 
-export default UserDay;
+export default Day;
