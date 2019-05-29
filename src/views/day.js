@@ -19,6 +19,7 @@ class Day extends React.Component{
             shiftsList: []
         };
         this.handleChange = this.handleChange.bind(this);
+        this.getShifts = this.getShifts.bind(this);
     }
     //Función que permite seleccionar otro día
     handleChange = (date) => {

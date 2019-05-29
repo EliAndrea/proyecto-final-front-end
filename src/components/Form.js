@@ -21,7 +21,7 @@ class FormWorkers extends React.Component {
     }
     addNewWorker = () => {
         let worker = this.state.worker;
-        worker.role = "user";
+        //worker.role = "user";   Esto debe ser reemplazado por el user_id, creada al crear usuario
         fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/", {
             method: 'POST',
             body: JSON.stringify(worker),
