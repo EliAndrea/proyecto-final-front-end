@@ -6,6 +6,8 @@ import Day from './views/day.js';
 import Workers from './views/workers.js';
 //import UserDay from './views/user-day.js';
 //import ThemeProvider from "./context/themeProvider.js";
+import Password from "./views/password.js";
+import Email from "./views/cambioemail.js";
 import Login from "./views/login.js";
 import Profile from './views/profile.js';
 
@@ -17,7 +19,9 @@ function App() {
                     <Switch>
                         <Route path="/" exact component={Login} />
                         <Route path="/profile" exact component={Profile} />
+                        <Route path="/password" exact component={Password} />
                         <Route path="/admin/home/" component={Home} />
+                        <Route path="/cambioemail" exact component={Email} />
                         <Route path="/admin/workers/" component={Workers} />
                         <Route path="/admin/day" component={Day} />
                        {/*<Route path="/user/day" component={UserDay} />*/}
