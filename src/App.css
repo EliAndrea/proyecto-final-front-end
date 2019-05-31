@@ -4,6 +4,26 @@
 .select{
     margin-top: 15px;
 }
+/*
+body { 
+  background: url("https://mdbootstrap.com/img/Photos/Others/images/81.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+*/
+
+#aparecer{
+  text-align:right;
+}
+
+/*
+MDBCardTitle{
+  border:2px dashed purple;
+}
+*/
+
 .btnAddWorker{
     margin-top: 40px;
     text-align: center;
