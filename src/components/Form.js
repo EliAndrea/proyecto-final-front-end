@@ -22,7 +22,7 @@ class FormWorkers extends React.Component {
     addNewWorker = () => {
         let worker = this.state.worker;
         //worker.role = "user";   Esto debe ser reemplazado por el user_id, creada al crear usuario
-        fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/", {
+        fetch("http://127.0.0.1:8000/api/users/", {
             method: 'POST',
             body: JSON.stringify(worker),
             headers:{
@@ -37,7 +37,7 @@ class FormWorkers extends React.Component {
         }
     updateWorker = () => {
         let worker = this.state.worker;
-        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/" + worker.id;
+        let url = "http://127.0.0.1:8000/api/users/" + worker.id;
         delete worker.id;
         fetch(url, {
             method: 'PUT',

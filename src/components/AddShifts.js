@@ -79,7 +79,7 @@ class AddShifts extends React.Component{
     addShift = (newShift) => {
         newShift.date_start = this.props.dateString(this.props.date);
         newShift.date_end = this.props.dateString(this.props.date);
-        fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/", {
+        fetch("http://127.0.0.1:8000/api/shifts/", {
             method: 'POST',
             body: JSON.stringify(newShift),
             headers:{

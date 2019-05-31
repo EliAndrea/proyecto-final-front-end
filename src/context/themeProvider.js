@@ -17,7 +17,7 @@ class ThemeProvider extends React.Component{
 			actions:
 				{
 					updateWorkersList: () =>{
-						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/")
+						fetch("http://127.0.0.1:8000/api/users/")
 							.then((response) => {
 	            				return response.json();
 	            				})
@@ -28,7 +28,7 @@ class ThemeProvider extends React.Component{
 	            				});
 					},
 					updateShiftsTypes: () => {
-						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts-types/")
+						fetch("http://127.0.0.1:8000/api/shifts-types/")
 							.then((response) => {
 								return response.json();
 								})
@@ -40,7 +40,7 @@ class ThemeProvider extends React.Component{
 						
 					},
 					updatePositions: () => {
-						fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/positions/")
+						fetch("http://127.0.0.1:8000/api/positions/")
 							.then((response) => {
 								return response.json();
 								})

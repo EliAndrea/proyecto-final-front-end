@@ -51,7 +51,7 @@ class Day extends React.Component{
             month = "0" + month;
         }
         date = date.getFullYear() + "-" + month + "-" + day;
-        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/" + date;
+        let url = "http://127.0.0.1:8000/api/shifts/" + date;
         fetch(url)
             .then((response) => {
                 return response.json();

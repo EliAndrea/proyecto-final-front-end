@@ -19,7 +19,7 @@ class ListWorkers extends React.Component {
     //Función para eliminar usuario de la base de datos
     deleteWorker = (id) => {
         console.log(id);
-        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/" + id;
+        let url = "http://127.0.0.1:8000/api/users/" + id;
 		fetch(url, {method: 'DELETE'})
 		    .then((resp)=> {
 		        console.log(resp);

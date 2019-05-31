@@ -17,7 +17,7 @@ class ListShifts extends React.Component{
     //Función para eliminar turno
     deleteShift = (id) => {
         console.log(id);
-        let url = "https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shifts/" + id;
+        let url = "http://127.0.0.1:8000/api/shifts/" + id;
 		fetch(url, {method: 'DELETE'})
 		    .then((resp)=> {
 		        console.log(resp);
@@ -40,7 +40,7 @@ class ListShifts extends React.Component{
         }
         return(
             <div>
-                {(workers.length === 0) || (types.length === 0) ? (
+                {(workers.length === 0) ? (
                 <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
