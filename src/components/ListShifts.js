@@ -18,7 +18,14 @@ class ListShifts extends React.Component{
     deleteShift = (id) => {
         console.log(id);
         let url = "http://127.0.0.1:8000/api/shifts/" + id;
-		fetch(url, {method: 'DELETE'})
+		fetch(url, 
+		{
+		    method: 'DELETE',
+		    headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Token " + localStorage.getItem('token')
+			}
+		})
 		    .then((resp)=> {
 		        console.log(resp);
 		        this.props.refresh(this.props.date);
@@ -38,9 +45,13 @@ class ListShifts extends React.Component{
             });
             list = filteredList;
         }
+        let admin = false;
+        if (localStorage.getItem('admin') === "true"){
+            admin = true;
+        }
         return(
             <div>
-                {(workers.length === 0) ? (
+                {(workers.length === 0 && (types.length === 0)) ? (
                 <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
@@ -94,7 +105,7 @@ class ListShifts extends React.Component{
                                                 let worker = workers.find((worker) => {return worker.id === shift.users_id});
                                                 return(
                                                     <MDBListGroupItem key={index}>
-                                                        {worker.l_name + " " + worker.f_name}
+                                                        {worker.last_name + " " + worker.first_name}
                                                     </MDBListGroupItem>
                                                     );
                                                 })
@@ -113,7 +124,7 @@ class ListShifts extends React.Component{
                                         </MDBListGroup>
                                     </MDBContainer>
                                 </MDBCol>
-                                {this.props.models.admin &&
+                                {admin &&
                                 <MDBCol size="1">
                                     <MDBCardTitle className= "title"></MDBCardTitle>
                                     <MDBContainer>

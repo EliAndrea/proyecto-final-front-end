@@ -83,7 +83,8 @@ class AddShifts extends React.Component{
             method: 'POST',
             body: JSON.stringify(newShift),
             headers:{
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Authorization": "Token " + localStorage.getItem('token')
                 }
             }).then(res => res.json())
             .then(response => {
@@ -94,7 +95,9 @@ class AddShifts extends React.Component{
         }
     render(){
         let shiftsTypes = this.props.models.shiftsTypes;
-        let workers = this.props.models.workersList;
+        let workers = this.props.models.workersList.filter((user) => {
+            return user.is_active;
+        });
         return(
             <MDBContainer className="inputShift">
                 <MDBCard className="marginTop">
@@ -118,7 +121,7 @@ class AddShifts extends React.Component{
                                     <select className="form-control" name="worker" onChange={this.inputWorker}>
                                         <option value="">Seleccione...</option>
                                         {workers.map((worker, index) => {
-                                            return <option value={worker.id} key={index}>{worker.l_name + " " + worker.f_name}</option>;
+                                            return <option value={worker.id} key={index}>{worker.last_name + " " + worker.first_name}</option>;
                                         })}
                                     </select>
                                 </div>

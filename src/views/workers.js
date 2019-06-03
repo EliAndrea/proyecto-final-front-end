@@ -2,7 +2,7 @@ import React from 'react';
 import {MDBContainer, MDBRow, MDBCol, MDBBtn} from 'mdbreact';
 import MyNavbar from '../components/Navbar.js';
 import ListWorkers from '../components/ListWorkers.js';
-import FormWorkers from '../components/Form.js';
+import FormWorkers from '../components/FormWorkers.js';
 import {Context} from '../context/themeProvider.js';
 
 class Workers extends React.Component{
@@ -23,8 +23,8 @@ class Workers extends React.Component{
             form: "addWorker",
             titulo: "Agregar nuevo trabajador",
             worker: {
-                f_name: "",
-                l_name: "",
+                first_name: "",
+                last_name: "",
                 email: "",
                 phone_number: "",
             }
@@ -58,7 +58,7 @@ class Workers extends React.Component{
                 {(context) => {
                     return (
                         <div>
-                            <MyNavbar className= "navbar" user_type="admin"/>
+                            <MyNavbar className= "navbar" admin={localStorage.getItem('admin')}/>
                             <MDBContainer>
                                 <MDBRow around>
                                     <MDBCol sm="12" lg="4">
@@ -70,8 +70,8 @@ class Workers extends React.Component{
                                     </MDBCol>
                                     <MDBCol sm="12" lg="7">
                                         {this.state.form !== "empty" &&
-                                            <FormWorkers titulo={this.state.titulo} positions={context.models.positions} form={this.state.form}
-                                            worker={Object.assign({}, this.state.worker)} actions={context.actions} hide={this.hideForm} />
+                                            <FormWorkers titulo={this.state.titulo} form={this.state.form} worker={Object.assign({}, this.state.worker)} 
+                                            actions={context.actions} hide={this.hideForm} models={context.models}/>
                                         }
                                     </MDBCol>
                                 </MDBRow>

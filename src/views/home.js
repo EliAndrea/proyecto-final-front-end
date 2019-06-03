@@ -4,14 +4,18 @@ import { Context } from '../context/themeProvider.js';
 
 class Home extends React.Component{
     render(){
+        let admin = false;
+        if (localStorage.getItem('admin') === "true"){
+            admin = true;
+        }
         return(
             <Context.Consumer>
             {(context) => {
                 return (
-                context.models.admin ?
-                <MyNavbar user_type="admin"/>
+                admin ?
+                <MyNavbar admin={localStorage.getItem('admin')}/>
                 :
-                <MyNavbar user_type="user"/>                    
+                <MyNavbar admin={localStorage.getItem('admin')}/>                    
                 )}
             }
             </Context.Consumer>

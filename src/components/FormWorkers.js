@@ -21,14 +21,17 @@ class FormWorkers extends React.Component {
     }
     addNewWorker = () => {
         let worker = this.state.worker;
-        //worker.role = "user";   Esto debe ser reemplazado por el user_id, creada al crear usuario
-        fetch("http://127.0.0.1:8000/api/users/", {
-            method: 'POST',
+        console.log(worker);
+        fetch("http://127.0.0.1:8000/api/users/", 
+        {
+            method: "POST",
             body: JSON.stringify(worker),
             headers:{
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Authorization": "Token " + localStorage.getItem('token')
                 }
-            }).then(res => res.json())
+        })
+            .then(res => res.json())
             .then(response => {
                 console.log(response);
                 this.props.actions.updateWorkersList();
@@ -40,10 +43,11 @@ class FormWorkers extends React.Component {
         let url = "http://127.0.0.1:8000/api/users/" + worker.id;
         delete worker.id;
         fetch(url, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(worker),
             headers:{
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Authorization": "Token " + localStorage.getItem('token')
                 }
             }).then(res => res.json())
             .then(response => {
@@ -58,7 +62,7 @@ class FormWorkers extends React.Component {
     render(){
         let worker = this.props.worker;
         //Se busca el objeto posición para reemplazar el ID
-        let position = this.props.positions.find((position)=>{return position.id === worker.positions_id});
+        let position = this.props.models.positions.find((position)=>{return position.id === worker.positions_id});
         return (
             <div>
                 {this.props.form === "showWorker" ? (
@@ -68,10 +72,10 @@ class FormWorkers extends React.Component {
                         <form>
                             <MDBRow>
                                 <MDBCol size="6">
-                                    <MDBInput label="Nombre" value={worker.f_name} disabled/>
+                                    <MDBInput label="Nombre" value={worker.first_name} disabled/>
                                 </MDBCol>
                                 <MDBCol size="6">
-                                    <MDBInput label="Apellido" value={worker.l_name} disabled/>
+                                    <MDBInput label="Apellido" value={worker.last_name} disabled/>
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow>
@@ -99,17 +103,17 @@ class FormWorkers extends React.Component {
                         <form>
                             <MDBRow>
                                 <MDBCol size="6">
-                                    <MDBInput label="Nombre" value={worker.f_name} maxLength="20" minLength="3" required
+                                    <MDBInput label="Nombre" value={worker.first_name} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
-                                            worker.f_name = event.target.value;
+                                            worker.first_name = event.target.value;
                                             this.setState({worker: worker});
                                         }}
                                     />
                                 </MDBCol>
                                 <MDBCol size="6">
-                                    <MDBInput label="Apellido" value={worker.l_name} maxLength="20" minLength="3" required
+                                    <MDBInput label="Apellido" value={worker.last_name} maxLength="20" minLength="3" required
                                         onChange={(event)=>{
-                                            worker.l_name = event.target.value;
+                                            worker.last_name = event.target.value;
                                             this.setState({worker: worker});
                                         }}
                                     />
@@ -144,7 +148,7 @@ class FormWorkers extends React.Component {
                                         }}
                                 >
                                     <option value="">Seleccione un cargo</option>
-                                    {this.props.positions.map((option, index) =>{
+                                    {this.props.models.positions.map((option, index) =>{
                                         return <option key={index} value={option.id}> {option.position_name} </option>;
                                     })
                                 }

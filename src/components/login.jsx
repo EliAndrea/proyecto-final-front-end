@@ -14,7 +14,8 @@ export class Login extends React.Component {
 
     handleClickLogin() {
         const emailLogin = this.emailLogin.current.value;
-
+        console.log(this.emailLogin);
+        console.log(this.passwordLogin);
         if (!validator.isEmail(emailLogin)) {
             alert('El email no es valido');
             return false;

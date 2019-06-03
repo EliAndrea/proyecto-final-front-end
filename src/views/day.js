@@ -42,17 +42,16 @@ class Day extends React.Component{
     } 
     
     getShifts = (date) => {
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        if(day < 10){
-            day = "0" + day;
-        }
-        if(month < 10){
-            month = "0" + month;
-        }
-        date = date.getFullYear() + "-" + month + "-" + day;
-        let url = "http://127.0.0.1:8000/api/shifts/" + date;
-        fetch(url)
+        let dateString = this.dateYYYYMMDD(date)
+        let url = "http://127.0.0.1:8000/api/shifts/" + dateString;
+        fetch(url,
+        {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Token " + localStorage.getItem('token')
+			}
+		})
             .then((response) => {
                 return response.json();
             })
@@ -62,13 +61,17 @@ class Day extends React.Component{
     }
     render(){
         let date = this.state.date;
+        let admin = false;
+        if (localStorage.getItem('admin') === "true"){
+            admin = true;
+        }
         return (
             <Context.Consumer>
                 {(context) => {
                     return (
-                        context.models.admin ? (
+                        admin ? (
                         <div>
-                            <MyNavbar user_type="admin"/>
+                            <MyNavbar admin={localStorage.getItem('admin')} />
                             <MDBContainer>
                                 <MDBRow className="marginTop">
                                     <MDBCol size="3">
@@ -84,7 +87,7 @@ class Day extends React.Component{
                         </div>
                         ):(
                         <div>
-                            <MyNavbar user_type="user"/>
+                            <MyNavbar admin={localStorage.getItem('admin')}/>
                             <MDBContainer>
                                 <MDBRow className="marginTop">
                                     <MDBCol size="3">

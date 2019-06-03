@@ -20,7 +20,14 @@ class ListWorkers extends React.Component {
     deleteWorker = (id) => {
         console.log(id);
         let url = "http://127.0.0.1:8000/api/users/" + id;
-		fetch(url, {method: 'DELETE'})
+		fetch(url, 
+		{
+		    method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Token " + localStorage.getItem('token')
+			}
+		})
 		    .then((resp)=> {
 		        console.log(resp);
 		        this.props.actions.updateWorkersList();
@@ -33,10 +40,16 @@ class ListWorkers extends React.Component {
         this.props.actions.updatePositions();
     }
     render() {
+        console.log(this.props.models.workersList);
         let list = this.props.models.workersList;
+        if(list.length !== 0){
+            list = list.filter((user) => {
+                return user.is_active;
+            });
+        }
         //Filtro de lista según carácteres ingresados en barra de búsqueda
-        const filteredList = this.props.models.workersList.filter(element => {
-            let name = element.f_name + " " + element.l_name;
+        const filteredList = list.filter(element => {
+            let name = element.first_name + " " + element.last_name;
             return name.toLowerCase().includes(this.state.query.toLowerCase());
         });
         return (
@@ -52,7 +65,7 @@ class ListWorkers extends React.Component {
                         {list.map((worker, index) => {
                             return( 
                                 <MDBListGroupItem key={index}>
-                                    <span onClick={()=>{this.props.show(worker)}} className="link">{worker.f_name + " " + worker.l_name}</span>
+                                    <span onClick={()=>{this.props.show(worker)}} className="link">{worker.last_name + " " + worker.first_name}</span>
                                     <span className="link"><MDBIcon className="icon" icon="trash" 
                                         onClick={()=>{this.deleteWorker(worker.id)}}/>
                                     </span>
@@ -66,7 +79,7 @@ class ListWorkers extends React.Component {
                         {filteredList.map((worker, index) => {
                             return( 
                                 <MDBListGroupItem key={index}>
-                                    <span onClick={()=>{this.props.show(worker)}} className="link">{worker.f_name  + " " + worker.l_name}</span>
+                                    <span onClick={()=>{this.props.show(worker)}} className="link">{worker.last_name  + " " + worker.first_name}</span>
                                     <span className="link"><MDBIcon className="icon" icon="trash" 
                                     onClick={()=>{this.deleteWorker(worker.id)}}/>
                                     </span>

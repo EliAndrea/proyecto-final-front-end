@@ -12,12 +12,19 @@ class ThemeProvider extends React.Component{
 					shiftsTypes: [],
 					positions: [],
 					showAlert: false,
-					admin: true
+					user: {}
 				},
 			actions:
 				{
 					updateWorkersList: () =>{
-						fetch("http://127.0.0.1:8000/api/users/")
+						fetch("http://127.0.0.1:8000/api/users/",
+						{
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": "Token " + localStorage.getItem('token')
+							}
+						})
 							.then((response) => {
 	            				return response.json();
 	            				})
@@ -28,7 +35,14 @@ class ThemeProvider extends React.Component{
 	            				});
 					},
 					updateShiftsTypes: () => {
-						fetch("http://127.0.0.1:8000/api/shifts-types/")
+						fetch("http://127.0.0.1:8000/api/shifts-types/",
+						{
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": "Token " + localStorage.getItem('token')
+							}
+						})
 							.then((response) => {
 								return response.json();
 								})
@@ -40,17 +54,31 @@ class ThemeProvider extends React.Component{
 						
 					},
 					updatePositions: () => {
-						fetch("http://127.0.0.1:8000/api/positions/")
+						fetch("http://127.0.0.1:8000/api/positions/",
+						{
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": "Token " + localStorage.getItem('token')
+							}
+						})
 							.then((response) => {
 								return response.json();
 								})
 							.then((responseJSON) => {
 								let models = this.state.models;
 								models.positions = responseJSON;
-								this.setState({model: models});
+								this.setState({models: models});
 								});
 
 					},
+					saveUser: (newUser) => {
+						let models = this.state.models;
+						models.user = newUser;
+						this.setState({models: models});
+						localStorage.setItem('token', newUser.token);
+						localStorage.setItem('admin', newUser.is_staff);
+					}
 				}
 		};
 	}
@@ -84,6 +112,7 @@ class ThemeProvider extends React.Component{
 	}*/
 	
 	render(){
+		console.log(this.state.models.user.token);
 		return(
 			<Context.Provider value={this.state}>
         		{this.props.children}
