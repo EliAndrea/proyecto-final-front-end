@@ -11,8 +11,8 @@ class ThemeProvider extends React.Component{
 					workersList: [],
 					shiftsTypes: [],
 					positions: [],
-					showAlert: false,
-					user: {}
+					user: {},
+					date: new Date()
 				},
 			actions:
 				{
@@ -70,7 +70,7 @@ class ThemeProvider extends React.Component{
 								models.positions = responseJSON;
 								this.setState({models: models});
 								});
-
+						
 					},
 					saveUser: (newUser) => {
 						let models = this.state.models;
@@ -78,39 +78,15 @@ class ThemeProvider extends React.Component{
 						this.setState({models: models});
 						localStorage.setItem('token', newUser.token);
 						localStorage.setItem('admin', newUser.is_staff);
+					},
+					dateUpdate: (date) => {
+						let date1 =this.state.models;
+						date1.date = date;
+						this.setState({models: date1});
 					}
 				}
 		};
 	}
-	/*componentDidMount(){
-	getWorkersList = () => {
-		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/users/")
-			.then((response) => {
-	            return response.json();
-	            })
-	        .then((responseJSON) => {
-	            this.state.actions.updateWorkersList(responseJSON);
-	            });
-	}
-	getShiftsTypes = () => {
-		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/shift-types/")
-			.then((response) => {
-				return response.json();
-			})
-			.then((responseJSON) => {
-				this.state.actions.updateShiftsTypes(responseJSON);
-			});
-	}
-	getPositions = () => {
-		fetch("https://3000-ba1b8683-b649-4439-93c8-37c62bff3b47.ws-us0.gitpod.io/api/positions/")
-			.then((response) => {
-				return response.json();
-			})
-			.then((responseJSON) => {
-				this.state.actions.updatePositions(responseJSON);
-			});
-	}*/
-	
 	render(){
 		localStorage.setItem('token', "1e5ddbcf8b953f03c6cfa892384249ed43c1f31c");
 		localStorage.setItem('admin', true);
