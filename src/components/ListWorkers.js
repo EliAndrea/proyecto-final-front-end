@@ -32,7 +32,7 @@ class ListWorkers extends React.Component {
 		        console.log(resp);
 		        this.props.actions.updateWorkersList();
 		    })
-		    .catch((err)=>{alert(err)});
+		    .catch(error => console.error('Error:', error));
 	}
 	//Se carga la lista de trabajadores
     componentDidMount(){

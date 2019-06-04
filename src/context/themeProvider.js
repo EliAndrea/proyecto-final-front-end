@@ -112,7 +112,8 @@ class ThemeProvider extends React.Component{
 	}*/
 	
 	render(){
-		console.log(this.state.models.user.token);
+		localStorage.setItem('token', "1e5ddbcf8b953f03c6cfa892384249ed43c1f31c");
+		localStorage.setItem('admin', true);
 		return(
 			<Context.Provider value={this.state}>
         		{this.props.children}

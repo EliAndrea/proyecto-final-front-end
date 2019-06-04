@@ -42,14 +42,16 @@ class FormWorkers extends React.Component {
         let worker = this.state.worker;
         let url = "http://127.0.0.1:8000/api/users/" + worker.id;
         delete worker.id;
-        fetch(url, {
+        fetch(url, 
+        {
             method: "PUT",
             body: JSON.stringify(worker),
             headers:{
                 "Content-Type": "application/json",
                 "Authorization": "Token " + localStorage.getItem('token')
                 }
-            }).then(res => res.json())
+        })
+            .then(res => res.json())
             .then(response => {
                 console.log(response);
                 this.props.actions.updateWorkersList();

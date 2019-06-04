@@ -5,10 +5,10 @@ import Home from './views/home.js';
 import Workers from './views/workers.js';
 import Day from './views/day.js';
 import ThemeProvider from "./context/themeProvider.js";
-import Password from "./views/password.js";
 import Email from "./views/cambioemail.js";
 import LoginView from "./views/login.js";
 import Profile from './views/profile.js';
+import Menu from './views/menu.js';
 
 function App() {
     return (
@@ -21,8 +21,8 @@ function App() {
                         <Route path="/workers/" component={Workers} />
                         <Route path="/day" component={Day} />
                         <Route path="/profile" exact component={Profile} />
-                        <Route path="/password" exact component={Password} />
                         <Route path="/cambioemail" exact component={Email} />
+                        <Route path="/menu" component={Menu} />
                     </Switch>
                 </div>
             </Router>

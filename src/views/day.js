@@ -42,7 +42,7 @@ class Day extends React.Component{
     } 
     
     getShifts = (date) => {
-        let dateString = this.dateYYYYMMDD(date)
+        let dateString = this.dateYYYYMMDD(date);
         let url = "http://127.0.0.1:8000/api/shifts/" + dateString;
         fetch(url,
         {
