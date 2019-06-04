@@ -1,33 +1,52 @@
-.App {
-  text-align: center;
+.formWorkers{
+    margin-top: 30px;
+}
+.select{
+    margin-top: 15px;
+}
+.btnAddWorker{
+    margin-top: 40px;
+    text-align: center;
+}
+.btnRight{
+    text-align: right;
+}
+.icon{
+    float: right;
+    margin-left: 10px; 
+}
+.link{
+    cursor: pointer; 
+    cursor: hand;
+}
+.label{
+    font-size: 13px;
+    font-weight: 300;
+    color: #757575;
+}
+.label-shifts{
+    font-size: 16px;
+    font-weight: 300;
+    color: #757575;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.inputShift{
+    margin-top: 20px;
+    text-align: left;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.cardBody{
+    text-align: center;
 }
-
-.App-link {
-  color: #61dafb;
+.marginTop{
+    margin-top: 20px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.title{
+    height: 28px;
 }
+.iconContainer{
+    height: 50px;
+}
+.marginLeft{
+    margin-left: 20px;
+}
+.c{width: 100%}
