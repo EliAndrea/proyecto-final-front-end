@@ -1,6 +1,6 @@
 import React from "react";
-import { MDBCol, MDBRow, MDBCard, MDBContainer } from 'mdbreact';
-import { Redirect } from 'react-router-dom' 
+import { MDBCol, MDBRow, MDBCard, MDBContainer, MDBCardBody, MDBIcon } from 'mdbreact';
+import { Redirect } from 'react-router-dom'; 
 
 class Login2 extends React.Component{
     constructor(props){
@@ -39,25 +39,31 @@ class Login2 extends React.Component{
             return <Redirect to='/home/' />;
         }
         return(
-            <MDBContainer className="marginTop">
-                <MDBRow center>
-                    <MDBCol size="5">
-                        <MDBCard className="text-center border border-light p-5">
-                                    <p className="h4 mb-4">Inicio de Sesión</p>
-                                    <input type="text" id="loginFormEmail" className="form-control mb-4" placeholder="E-mail" onChange={this.saveUserName}/>
-                                    <input type="password" id="loginFormPassword" className="form-control mb-4" placeholder="Password" onChange={this.savePassword}/>
-                                    <div className="d-flex justify-content-around">
-                                        <div>
-                                            <a href="/password">¿Olvidó su contraseña?</a>
-                                        </div>
+            <div className="mt-5">
+                <h1 className="text-center">Shift x Shift</h1>
+                <MDBContainer className="mt-5">
+                    <MDBRow center>
+                        <MDBCol size="5">
+                            <MDBCard>
+                                <MDBCardBody>
+                                    <p className="h4 mb-4 text-center">Inicio de Sesión</p>
+                                    <div className="mt-5">
+                                        <MDBIcon icon="user"/>
+                                        <input type="text" id="loginFormUserName" className="form-control mb-4 inputLogin" placeholder="Nombre de usuario" onChange={this.saveUserName}/>
                                     </div>
-                                    <button className="btn btn-info btn-block my-4" onClick={this.clickSingIn}>Ingresar</button>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-                {console.log(this.state.userName)}
-                {console.log(this.state.password)}
-            </MDBContainer>
+                                    <div>
+                                        <MDBIcon icon="lock"/>
+                                        <input type="password" id="loginFormPassword" className="form-control mb-4 inputLogin" placeholder="Password" onChange={this.savePassword}/>
+                                    </div>
+                                    <div className="mt-5">
+                                        <button className="btn-block my-4 btn btn-primary" onClick={this.clickSingIn}>Ingresar</button>
+                                    </div>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBContainer>
+            </div>
         );
     }
 }

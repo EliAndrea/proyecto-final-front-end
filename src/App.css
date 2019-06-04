@@ -14,9 +14,6 @@ body {
 }
 */
 
-#aparecer{
-  text-align:right;
-}
 
 /*
 MDBCardTitle{
@@ -68,4 +65,9 @@ MDBCardTitle{
 }
 .marginLeft{
     margin-left: 20px;
+}
+.inputLogin{
+    width: 300px !important;
+    display: inline-block !important;
+    margin-left: 10px;
 }
