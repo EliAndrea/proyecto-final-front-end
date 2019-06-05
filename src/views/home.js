@@ -1,9 +1,9 @@
 import React from 'react';
 import MyNavbar from '../components/Navbar.js';
 import { Context } from '../context/themeProvider.js';
-import MyCalendar from '../components/Calendara.js'
+import MyCalendar from '../components/Calendara.js';
 import { MDBCol, MDBRow, MDBContainer } from 'mdbreact';
-import MyCalendarAd from '../components/Calendarad.js'
+import MyCalendarAd from '../components/Calendarad.js';
 
 class Home extends React.Component{
     render(){
@@ -11,6 +11,8 @@ class Home extends React.Component{
         if (localStorage.getItem('admin') === "true"){
             admin = true;
         }
+        {console.log(admin)}
+        {console.log(localStorage.getItem('admin'))}
         return(
             <Context.Consumer>
             {(context) => {

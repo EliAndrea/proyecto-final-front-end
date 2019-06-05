@@ -73,11 +73,11 @@ class ThemeProvider extends React.Component{
 						
 					},
 					saveUser: (newUser) => {
+						localStorage.setItem('token', newUser.token);
+						localStorage.setItem('admin', newUser.is_staff);
 						let models = this.state.models;
 						models.user = newUser;
 						this.setState({models: models});
-						localStorage.setItem('token', newUser.token);
-						localStorage.setItem('admin', newUser.is_staff);
 					},
 					dateUpdate: (date) => {
 						let date1 =this.state.models;
@@ -88,8 +88,6 @@ class ThemeProvider extends React.Component{
 		};
 	}
 	render(){
-		localStorage.setItem('token', "1e5ddbcf8b953f03c6cfa892384249ed43c1f31c");
-		localStorage.setItem('admin', true);
 		return(
 			<Context.Provider value={this.state}>
         		{this.props.children}
