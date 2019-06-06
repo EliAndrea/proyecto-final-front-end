@@ -95,14 +95,14 @@ class Day extends React.Component{
                         <div>
                             <MyNavbar admin={localStorage.getItem('admin')}/>
                             <MDBContainer>
-                                <MDBRow className="marginTop">
                                     <MDBCol size="3">
                                         <h1 className="h1-responsive">{date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear()}</h1>
                                     </MDBCol>
-                                    <MDBCol size="3">
-                                        <DatePicker onChange={this.handleChange} placeholderText="Seleccione otra fecha" locale="es"/>
-                                    </MDBCol>
-                                </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol size="3">
+                                            <DatePicker className="datePicker link" onChange={this.handleChange} placeholderText="Cambiar fecha" locale="es"/>
+                                        </MDBCol>
+                                    </MDBRow>
                             </MDBContainer>
                             <ListShifts list={this.state.shiftsList} models={context.models} actions={context.actions}/>
                         </div>

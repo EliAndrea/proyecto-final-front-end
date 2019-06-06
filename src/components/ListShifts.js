@@ -61,7 +61,7 @@ class ListShifts extends React.Component{
                         <MDBRow className="mt-3">
                             <MDBCol size="4">
                                 <select className="form-control marginLeft" name="position" onChange={(event)=>this.setState({valueFilter: event.target.value})}>
-                                    <option value="">Todos</option>
+                                    <option value="">Filtrar por cargos</option>
                                     {positions.map((position, index) => {
                                         return <option key={index} value={position.id}>{position.position_name}</option>;
                                         })
