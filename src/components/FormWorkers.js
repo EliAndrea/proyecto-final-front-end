@@ -1,22 +1,24 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBInput, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import Alert from './Alert.js';
 
 class FormWorkers extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            worker: this.props.worker
+            worker: this.props.worker,
+            showAlert: false,
+            color: "",
+            title: "",
+            textAlert: ""
         };
     }
     clickSaveChanges= () => {
         if (this.props.form === "addWorker"){
             this.addNewWorker();
-            this.props.hide();
         }
         else if (this.props.form === "editWorker"){
-            console.log("modificando usuario");
             this.updateWorker();
-            this.props.hide();
         }
     }
     addNewWorker = () => {
@@ -31,13 +33,31 @@ class FormWorkers extends React.Component {
                 "Authorization": "Token " + localStorage.getItem('token')
                 }
         })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
+        .then(res => {
+            if(res.status === 200){
+                let msg = "Nuevo trabajador agregado";
+                this.props.hide();
+                this.props.alert(msg);
                 this.props.actions.updateWorkersList();
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            }
+            else{
+                this.setState({
+                    showAlert: true,
+                    color: "danger",
+                    title: "Ha ocurrido un error",
+                    textAlert: "No se pudo agregar el trabajador"
+                });
+            }
+        })
+        .catch(error =>{
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "Ha ocurrido un error",
+                textAlert: "No se pudo agregar el trabajador"
+            });
+        });
+    }
     updateWorker = () => {
         let worker = this.state.worker;
         let url = "http://127.0.0.1:8000/api/users/" + worker.id;
@@ -51,22 +71,46 @@ class FormWorkers extends React.Component {
                 "Authorization": "Token " + localStorage.getItem('token')
                 }
         })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
+        .then(res => {
+            if(res.status === 200){
+                let msg = "Datos de trabajador actualizados";
+                this.props.hide();
+                this.props.alert(msg);
                 this.props.actions.updateWorkersList();
-            })
-            .catch(error => console.error('Error:', error));
-        }
-        
-        
-    
+            }
+            else{
+                this.setState({
+                    showAlert: true,
+                    color: "danger",
+                    title: "Ha ocurrido un error",
+                    textAlert: "No se pudo actualizar los datos del trabajador"
+                });
+            }
+        })
+        .catch(error =>{
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "Ha ocurrido un error",
+                textAlert: "No se pudo actualizar los datos del trabajador"
+            });
+        });
+    }
+    closeAlert = () => {
+        this.setState({showAlert:false});
+        this.props.hide();
+    }
     render(){
         let worker = this.props.worker;
         //Se busca el objeto posición para reemplazar el ID
         let position = this.props.models.positions.find((position)=>{return position.id === worker.positions_id});
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert} sizeLg="12"/>;
+        }
         return (
             <div>
+                {msgAlert}
                 {this.props.form === "showWorker" ? (
                 <MDBCard className="formWorkers">
                     <MDBCardBody>
@@ -157,7 +201,7 @@ class FormWorkers extends React.Component {
                                 </select>
                             </div>
                             <div className="btnAddWorker">
-                                <MDBBtn color="deep-purple" onClick={this.clickSaveChanges}>Guardar cambios</MDBBtn>
+                                <MDBBtn className="white-text mt-3 mr-0" color="mdb-color" onClick={this.clickSaveChanges}>Guardar cambios</MDBBtn>
                             </div>
                         </form>
                     </MDBCardBody>

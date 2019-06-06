@@ -1,5 +1,6 @@
 import React from 'react';
-import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBFormInline, MDBIcon } from "mdbreact";
+import { MDBListGroup, MDBListGroupItem, MDBFormInline, MDBIcon } from "mdbreact";
+import Alert from './Alert.js';
 
 class ListWorkers extends React.Component {
     constructor(props){
@@ -7,8 +8,17 @@ class ListWorkers extends React.Component {
         this.state = {
             list: this.props.models.workersList,
             query: "",
+            showAlert: false,
+            color: "",
+            title: "",
+            textAlert: ""
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+    }
+	//Se carga la lista de trabajadores
+    componentDidMount(){
+        this.props.actions.updateWorkersList();
+        this.props.actions.updatePositions();
     }
     //Función para realizar búsqueda dentro de la lista de usuarios
     handleInputChange(event){
@@ -18,7 +28,6 @@ class ListWorkers extends React.Component {
     }
     //Función para eliminar usuario de la base de datos
     deleteWorker = (id) => {
-        console.log(id);
         let url = "http://127.0.0.1:8000/api/users/" + id;
 		fetch(url, 
 		{
@@ -28,19 +37,30 @@ class ListWorkers extends React.Component {
 				"Authorization": "Token " + localStorage.getItem('token')
 			}
 		})
-		    .then((resp)=> {
-		        console.log(resp);
+		.then((resp)=> {
+		    if(resp.ok){
+                this.setState({
+                    showAlert: true,
+                    color: "success",
+                    title: "Trabajador eliminado",
+                    textAlert: ""
+                });
 		        this.props.actions.updateWorkersList();
+		        }   
 		    })
-		    .catch(error => console.error('Error:', error));
+		.catch(error =>{
+                this.setState({
+                    showAlert: true,
+                    color: "danger",
+                    title: "No se pudo eliminar el trabajador",
+                    textAlert: "Ha ocurrido un error"
+                });
+            });
 	}
-	//Se carga la lista de trabajadores
-    componentDidMount(){
-        this.props.actions.updateWorkersList();
-        this.props.actions.updatePositions();
+	closeAlert = () => {
+        this.setState({showAlert:false});
     }
     render() {
-        console.log(this.props.models.workersList);
         let list = this.props.models.workersList;
         if(list.length !== 0){
             list = list.filter((user) => {
@@ -52,14 +72,19 @@ class ListWorkers extends React.Component {
             let name = element.first_name + " " + element.last_name;
             return name.toLowerCase().includes(this.state.query.toLowerCase());
         });
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert} sizeLg="12"/>;
+        }
         return (
             <div>
+                {msgAlert}
                 <MDBFormInline className="md-form">
                     <MDBIcon icon="search" />
                         <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Buscar Trabajador" aria-label="Search" 
                         value={this.state.query} onChange={this.handleInputChange}/>
                 </MDBFormInline>
-                <MDBContainer>
+                <div>
                     {this.state.query === "" ? (
                     <MDBListGroup>
                         {list.map((worker, index) => {
@@ -89,7 +114,7 @@ class ListWorkers extends React.Component {
                         })}
                     </MDBListGroup>
                     )}
-                </MDBContainer>
+                </div>
            </div>
         );
     }
