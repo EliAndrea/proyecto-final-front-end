@@ -76,7 +76,7 @@ class ListShifts extends React.Component{
                                     <MDBListGroup>
                                         {list.map((shift, index)=>{
                                             let type = types.find((type) => {return type.id === shift.shift_types_id}); 
-                                            return <MDBListGroupItem key={index}>{type.shift_name}</MDBListGroupItem>;
+                                            return type !== undefined ? <MDBListGroupItem key={index}>{type.shift_name}</MDBListGroupItem> : null;
                                             })
                                         }
                                     </MDBListGroup>
@@ -98,11 +98,13 @@ class ListShifts extends React.Component{
                                     <MDBListGroup>
                                         {list.map((shift, index)=>{
                                             let worker = workers.find((worker) => {return worker.id === shift.users_id});
-                                            return(
-                                                <MDBListGroupItem key={index}>
-                                                    {worker.last_name + " " + worker.first_name}
-                                                </MDBListGroupItem>
-                                                );
+                                            return worker !== undefined ?
+                                                
+                                                    <MDBListGroupItem key={index}>
+                                                        {worker.last_name + " " + worker.first_name}
+                                                    </MDBListGroupItem>
+                                                
+                                                : null;
                                             })
                                         }
                                     </MDBListGroup>
