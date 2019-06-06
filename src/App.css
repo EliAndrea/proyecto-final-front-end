@@ -25,9 +25,9 @@ MDBCardTitle{
     margin-top: 40px;
     text-align: center;
 }
-.btnRight{
+/*.btnRight{
     text-align: right;
-}
+}*/
 .icon{
     float: right;
     margin-left: 10px; 
@@ -46,13 +46,9 @@ MDBCardTitle{
     font-weight: 300;
     color: #757575;
 }
-
 .inputShift{
     margin-top: 20px;
     text-align: left;
-}
-.cardBody{
-    text-align: center;
 }
 .marginTop{
     margin-top: 20px;
@@ -71,8 +67,12 @@ MDBCardTitle{
     display: inline-block !important;
     margin-left: 10px;
 }
-.c{
+/*.c{
     width: 100%
     
+}*/
+
+.datePicker{
+    border: none;
 }
 

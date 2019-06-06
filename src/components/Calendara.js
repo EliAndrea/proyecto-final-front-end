@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import 'react-infinite-calendar/styles.css';
 import InfiniteCalendar, { Calendar, defaultMultipleDateInterpolation, withMultipleDates } from 'react-infinite-calendar';
 import Moment from 'moment';
-//import moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { Redirect } from 'react-router-dom'; 
 
 const moment = extendMoment(Moment);
 
@@ -12,12 +12,13 @@ export default class MyCalendar extends Component {
         super(props);
         this.state = {
             date: this.props.date,
-            list: []
+            list: [],
+            redirect: false
         };
         this.testFunc = this.testFunc.bind(this);
     }
 
-    onChange = date => this.setState({ date });
+    //onChange = date => this.setState({ date });
 
     getTurns = (date) => {
         let month = date.getMonth() + 1;
@@ -61,12 +62,17 @@ export default class MyCalendar extends Component {
     }
     testFunc(e) {
         this.props.date2(e);
-        window.location="/day";
+        this.setState({redirect: true});
     }
     render() {
         let days = this.getDate(this.state.list);
+        let redirect;
+        if(this.state.redirect){
+            redirect = <Redirect to='/day' />;
+        }
         return (
-            <div>    
+            <div>
+                {redirect}
                 {(this.state.list.length === 0 ) ? (
                 <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
@@ -75,7 +81,7 @@ export default class MyCalendar extends Component {
                 <InfiniteCalendar className="c"
                     locale={{
                         weekdays:["Dom","Lun","Mar","Mie","Jue","Vie","Sab"],
-                        weekStartsOn: 1
+                        weekStartsOn: 1,
                     }}
                     Component={withMultipleDates(Calendar)}
                     selected={days}

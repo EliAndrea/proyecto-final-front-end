@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDBCol, MDBRow, MDBInput, MDBBtn, MDBIcon, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
+import Alert from './Alert.js';
 
 class AddShifts extends React.Component{
     constructor(props){
@@ -7,8 +8,13 @@ class AddShifts extends React.Component{
         this.state = {
             shift: {
                 shift_types_id: "",
-                users_id: ""
-            }
+                users_id: "",
+                task: ""
+            },
+            showAlert: false,
+            color: "",
+            title: "",
+            textAlert: ""
         };
         this.inputShift = this.inputShift.bind(this);
         this.inputWorker = this.inputWorker.bind(this);
@@ -30,10 +36,18 @@ class AddShifts extends React.Component{
         shift.task = event.target.value;
         this.setState({shift:shift});
     }
+    closeAlert = () => {
+        this.setState({showAlert:false});
+    }
     checkShift = () => {
         let newShift = this.state.shift;
         if(this.state.shift.shift_types_id === "" || this.state.shift.users_id === ""){
-            console.log("Debe seleccionar un horario y trabajador");
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "No se pudo agregar el turno",
+                textAlert:"Debe seleccionar un horario y un trabajador"
+            });
         }
         else{
             //Filtra la lista de turnos, buscando todos los turnos asignados al mismo trabajador en el día
@@ -50,24 +64,31 @@ class AddShifts extends React.Component{
                         let start = this.timeInMin(type.shift_start);
                         let end = this.timeInMin(type.shift_end);
                         if((newStart < end && newEnd > end) || (newStart < start && newEnd > start)){
-                            console.log("El trabajador ya tiene asigando un turno en este mismo horario de trabajo");
+                            this.setState({
+                                showAlert: true,
+                                color: "danger",
+                                title: "No se pudo agregar el turno",
+                                textAlert:"El trabajador ya tiene asigando un turno en este mismo horario de trabajo"
+                            });
                             return;
                         }
                     }
-                    console.log("agregando turno");
                     this.addShift(newShift);
                     }
                 else{
-                    console.log("El trabajador ya tiene asignado este turno para el mismo día");
+                    this.setState({
+                        showAlert: true,
+                        color: "danger",
+                        title: "No se pudo agregar el turno",
+                        textAlert:"El trabajador ya tiene asignado este turno para el mismo día"
+                    });
                 }
             }
             else{
-                console.log("agregando turno");
                 this.addShift(newShift);
             }
         }
     }
-    
     timeInMin = (time) =>{
         let arrTime = time.split(":");
         let hour = parseInt(arrTime[0]);
@@ -75,7 +96,6 @@ class AddShifts extends React.Component{
         let sum = hour * 60 + min;
         return sum;
     }
-    
     addShift = (newShift) => {
         newShift.date_start = this.props.dateString(this.props.date);
         newShift.date_end = this.props.dateString(this.props.date);
@@ -86,24 +106,51 @@ class AddShifts extends React.Component{
                 "Content-Type": "application/json",
                 "Authorization": "Token " + localStorage.getItem('token')
                 }
-            }).then(res => res.json())
-            .then(response => {
-                console.log(response);
-                this.props.refresh(this.props.date);
             })
-            .catch(error => console.error('Error:', error));
+            .then(res => {
+                if(res.status == 200){
+                    this.setState({
+                        showAlert: true,
+                        color: "success",
+                        title: "Turno agregado exitosamente",
+                        textAlert: ""
+                    });
+                    this.props.refresh(this.props.date);
+                }
+                else{
+                    this.setState({
+                        showAlert: true,
+                        color: "danger",
+                        title: "No se pudo agregar el turno",
+                        textAlert: "Ha ocurrido un error"
+                    });
+                }
+            })
+            .catch(error =>{
+                this.setState({
+                    showAlert: true,
+                    color: "danger",
+                    title: "No se pudo agregar el turno",
+                    textAlert: "Ha ocurrido un error"
+                });
+            });
         }
     render(){
         let shiftsTypes = this.props.models.shiftsTypes;
         let workers = this.props.models.workersList.filter((user) => {
             return user.is_active;
         });
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert}/>;
+        }
         return(
             <MDBContainer className="inputShift">
+                {msgAlert}
                 <MDBCard className="marginTop">
-                    <MDBCardBody className="cardBody">
+                    <MDBCardBody className="text-center">
                         <MDBRow center>
-                            <MDBCol size="2">
+                            <MDBCol sm="6" lg="2">
                                 <div className="form-group">
                                     <label className="label-shifts">Tipo Turno</label>
                                     <select className="form-control" name="shift" onChange={this.inputShift}>
@@ -115,7 +162,7 @@ class AddShifts extends React.Component{
                                     </select>
                                 </div>
                             </MDBCol>
-                            <MDBCol size="4">
+                            <MDBCol sm="6" lg="4">
                                 <div className="form-group">
                                     <label className="label-shifts" >Trabajador</label>
                                     <select className="form-control" name="worker" onChange={this.inputWorker}>
@@ -126,13 +173,14 @@ class AddShifts extends React.Component{
                                     </select>
                                 </div>
                             </MDBCol>
-                            <MDBCol size="3">
-                                <MDBInput label="Tarea (opcional)" onChange={this.inputTask}/>
-                            </MDBCol>
-                             <MDBCol size="3">
-                                <div className="btnRight">
-                                    <MDBBtn color="light-blue" onClick={this.checkShift}>Agregar Turno<MDBIcon icon="user-plus" className="ml-2" /></MDBBtn>
+                            <MDBCol sm="12" lg="3">
+                                <div className="form-group">
+                                    <label className="label-shifts">Tareas (opcional)</label>
+                                    <input type="text" className="form-control" placeholder="Tareas (opcional)" maxLength="30" onChange={this.inputTask}/>
                                 </div>
+                            </MDBCol>
+                             <MDBCol sm="12" lg="3">
+                                <MDBBtn className="white-text mt-4" color="mdb-color" onClick={this.checkShift}>Agregar Turno<MDBIcon icon="tasks" className="ml-2" /></MDBBtn>
                             </MDBCol>    
                         </MDBRow>
                     </MDBCardBody>

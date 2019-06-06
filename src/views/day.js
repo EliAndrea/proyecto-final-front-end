@@ -18,6 +18,7 @@ class Day extends React.Component{
             date: new Date(),
             shiftsList: []
         };
+        this.test = null;
         this.handleChange = this.handleChange.bind(this);
         this.getShifts = this.getShifts.bind(this);
     }
@@ -27,6 +28,8 @@ class Day extends React.Component{
     }
     componentDidMount(){
         this.getShifts(this.state.date);
+        this.setState({date: this.test.models.date});
+        console.log(this.test.models);
     }
     dateYYYYMMDD = (date) => {
         let month = date.getMonth() + 1;
@@ -68,17 +71,20 @@ class Day extends React.Component{
         return (
             <Context.Consumer>
                 {(context) => {
+                    this.test = context;
                     return (
                         admin ? (
                         <div>
                             <MyNavbar admin={localStorage.getItem('admin')} />
                             <MDBContainer>
                                 <MDBRow className="marginTop">
-                                    <MDBCol size="3">
+                                    <MDBCol>
                                         <h1 className="h1-responsive">{date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear()}</h1>
                                     </MDBCol>
-                                    <MDBCol size="3">
-                                        <DatePicker onChange={this.handleChange} placeholderText="Seleccione otra fecha" locale="es"/>
+                                </MDBRow>
+                                <MDBRow>
+                                    <MDBCol>
+                                        <DatePicker className="datePicker link" onChange={this.handleChange} placeholderText="Cambiar fecha" locale="es"/>
                                     </MDBCol>
                                 </MDBRow>
                             </MDBContainer>

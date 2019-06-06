@@ -50,16 +50,16 @@ class ListShifts extends React.Component{
             admin = true;
         }
         return(
-            <div>
+            <div className="text-center">
                 {(workers.length === 0 && (types.length === 0)) ? (
-                <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
+                <div className="spinner-border text-primary mt-5" role="status">
+                    <span className="sr-only">Cargando...</span>
                 </div>
                 ):(
                 <MDBContainer>
                     <MDBCard className="marginTop">
-                        <MDBRow className="marginTop">
-                            <MDBCol size="3">
+                        <MDBRow className="mt-3">
+                            <MDBCol size="4">
                                 <select className="form-control marginLeft" name="position" onChange={(event)=>this.setState({valueFilter: event.target.value})}>
                                     <option value="">Todos</option>
                                     {positions.map((position, index) => {
@@ -69,73 +69,63 @@ class ListShifts extends React.Component{
                                 </select>
                             </MDBCol>
                         </MDBRow>
-                        <MDBCardBody className="cardBody">
+                        <MDBCardBody className="text-center">
                             <MDBRow>
                                 <MDBCol size="2">
                                     <MDBCardTitle>Turno</MDBCardTitle>
-                                    <MDBContainer>
-                                        <MDBListGroup>
-                                            {list.map((shift, index)=>{
-                                                let type = types.find((type) => {return type.id === shift.shift_types_id}); 
-                                                return <MDBListGroupItem key={index}>{type.shift_name}</MDBListGroupItem>;
-                                                })
-                                            }
-                                        </MDBListGroup>
-                                    </MDBContainer>
+                                    <MDBListGroup>
+                                        {list.map((shift, index)=>{
+                                            let type = types.find((type) => {return type.id === shift.shift_types_id}); 
+                                            return <MDBListGroupItem key={index}>{type.shift_name}</MDBListGroupItem>;
+                                            })
+                                        }
+                                    </MDBListGroup>
                                 </MDBCol>
                                 <MDBCol size="3">
                                     <MDBCardTitle>Horario</MDBCardTitle>
-                                    <MDBContainer>
-                                        <MDBListGroup>
-                                            {list.map((shift, index)=>{
-                                                let type = types.find((type) => {return type.id === shift.shift_types_id});
-                                                return (<MDBListGroupItem key={index}>
-                                                    {type.shift_start.substr(0, 5) + " - " + type.shift_end.substr(0, 5)}
-                                                    </MDBListGroupItem>);
-                                                })
-                                            }
-                                        </MDBListGroup>
-                                    </MDBContainer>
+                                    <MDBListGroup>
+                                        {list.map((shift, index)=>{
+                                            let type = types.find((type) => {return type.id === shift.shift_types_id});
+                                            return (<MDBListGroupItem key={index}>
+                                                {type.shift_start.substr(0, 5) + " - " + type.shift_end.substr(0, 5)}
+                                                </MDBListGroupItem>);
+                                            })
+                                        }
+                                    </MDBListGroup>
                                 </MDBCol>
                                 <MDBCol size="3">
                                     <MDBCardTitle>Trabajador</MDBCardTitle>
-                                    <MDBContainer>
-                                        <MDBListGroup>
-                                            {list.map((shift, index)=>{
-                                                let worker = workers.find((worker) => {return worker.id === shift.users_id});
-                                                return(
-                                                    <MDBListGroupItem key={index}>
-                                                        {worker.last_name + " " + worker.first_name}
-                                                    </MDBListGroupItem>
-                                                    );
-                                                })
-                                            }
-                                        </MDBListGroup>
-                                    </MDBContainer>
+                                    <MDBListGroup>
+                                        {list.map((shift, index)=>{
+                                            let worker = workers.find((worker) => {return worker.id === shift.users_id});
+                                            return(
+                                                <MDBListGroupItem key={index}>
+                                                    {worker.last_name + " " + worker.first_name}
+                                                </MDBListGroupItem>
+                                                );
+                                            })
+                                        }
+                                    </MDBListGroup>
                                 </MDBCol>
                                 <MDBCol size="3">
                                     <MDBCardTitle>Tarea</MDBCardTitle>
-                                    <MDBContainer>
                                         <MDBListGroup>
                                             {list.map((shift, index)=>{
-                                                return <MDBListGroupItem key={index}>{shift.task}</MDBListGroupItem>;
+                                                return <MDBListGroupItem key={index} className="iconContainer">{shift.task}</MDBListGroupItem>;
                                                 })
                                             }
                                         </MDBListGroup>
-                                    </MDBContainer>
                                 </MDBCol>
                                 {admin &&
                                 <MDBCol size="1">
                                     <MDBCardTitle className= "title"></MDBCardTitle>
-                                    <MDBContainer>
-                                        <MDBListGroup>
-                                            {list.map((shift, index)=>{
-                                                return <MDBListGroupItem key={index} className="iconContainer">
-                                                <MDBIcon className="link" icon="trash" onClick={()=>this.deleteShift(shift.id)} /></MDBListGroupItem>;
-                                                })
-                                            }
-                                        </MDBListGroup>
-                                    </MDBContainer>
+                                    <MDBListGroup>
+                                        {list.map((shift, index)=>{
+                                            return <MDBListGroupItem key={index} className="iconContainer">
+                                            <MDBIcon className="link" icon="trash" onClick={()=>this.deleteShift(shift.id)} /></MDBListGroupItem>;
+                                            })
+                                        }
+                                    </MDBListGroup>
                                 </MDBCol>
                                 }
                             </MDBRow>

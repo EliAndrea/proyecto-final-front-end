@@ -33,21 +33,23 @@ class MyNavbar extends React.Component {
         }        
         return (
             <div>
-                <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/home/">Volver al Calendario</NavbarBrand>
+                <Navbar light expand="md" className="navbar-dark bg-dark">
+                    <NavbarBrand href="/home/"><i className="fas fa-calendar-alt fa-2x"></i> Turno x Turno</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             {admin && 
-                            <NavItem>
-                                <NavLink href="/workers/">Trabajadores</NavLink>
-                            </NavItem>
+                            <React.Fragment>
+                                <NavItem>
+                                    <NavLink href="/workers/"><i className="fas fa-users"></i> Trabajadores</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href="/menu/"><i className="fas fa-cogs"></i> Menu</NavLink>
+                                </NavItem>
+                            </React.Fragment>
                             }
                             <NavItem>
-                                <NavLink href="/">Mi Perfil</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink onClick={this.logout} href="/">Cerrar Sesión</NavLink>
+                                <NavLink onClick={this.logout} href="/"><i className="fas fa-sign-out-alt"></i> Cerrar Sesión</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>

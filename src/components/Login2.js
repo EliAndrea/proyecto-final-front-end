@@ -1,13 +1,16 @@
 import React from "react";
-import { MDBCol, MDBRow, MDBCard, MDBContainer, MDBCardBody, MDBIcon } from 'mdbreact';
+import { MDBCol, MDBRow, MDBCard, MDBContainer, MDBCardBody, MDBInput } from 'mdbreact';
 import { Redirect } from 'react-router-dom'; 
+import Alert from './Alert.js';
 
 class Login2 extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             userName: "",
-            password: ""
+            password: "",
+            showAlert: false,
+            textAlert: ""
         };
     }
     saveUserName = (event) => {
@@ -15,6 +18,9 @@ class Login2 extends React.Component{
     }
     savePassword = (event) => {
         this.setState({password: event.target.value});
+    }
+    closeAlert = () => {
+        this.setState({showAlert:false});
     }
     clickSingIn = () => {
         let data = {
@@ -27,36 +33,73 @@ class Login2 extends React.Component{
                 body: JSON.stringify(data),
                 headers: {"Content-Type": "application/json"}
             })
-            .then(res => {return res.json()})
+            .then(res => {
+                if(res.status == 200){
+                    return res.json();
+                }
+                else if(res.status == 400){
+                    this.setState({
+                        showAlert: true,
+                        textAlert: "Ingrese un nombre de usuario y/o contraseña correctos"
+                    });
+                }
+                else{
+                    this.setState({
+                        showAlert: true,
+                        textAlert: "Ha ocurrido un error"
+                    });
+                }
+            })
             .then(response => {
-                console.log(response);
                 this.props.actions.saveUser(response);
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                this.setState({
+                    showAlert: true,
+                    textAlert: "Ha ocurrido un error"
+                });
+            });
     }
     render(){
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert = <Alert color="danger" title="No se pudo iniciar sesión" text={this.state.textAlert} closeAlert={this.closeAlert}/>;
+        }
         if (this.props.models.user.is_authenticated){
             return <Redirect to='/home/' />;
         }
         return(
             <div className="mt-5">
-                <h1 className="text-center">Shift x Shift</h1>
-                <MDBContainer className="mt-5">
+                <h1 className="text-center">Turno x Turno</h1>
+                {msgAlert}
+                <MDBContainer className="mt-3">
                     <MDBRow center>
-                        <MDBCol size="5">
+                        <MDBCol sm="12" lg="6">
                             <MDBCard>
                                 <MDBCardBody>
-                                    <p className="h4 mb-4 text-center">Inicio de Sesión</p>
-                                    <div className="mt-5">
-                                        <MDBIcon icon="user"/>
-                                        <input type="text" id="loginFormUserName" className="form-control mb-4 inputLogin" placeholder="Nombre de usuario" onChange={this.saveUserName}/>
+
+                                    <div className="grey-text">
+                                        <MDBInput
+                                            label="Nombre de usuario"
+                                            icon="user"
+                                            group
+                                            type="text"
+                                            validate
+                                            error="wrong"
+                                            success="right"
+                                            onChange={this.saveUserName}
+                                      />
+                                        <MDBInput
+                                            label="Contraseña"
+                                            icon="lock"
+                                            group
+                                            type="password"
+                                            validate
+                                            onChange={this.savePassword}
+                                      />
                                     </div>
-                                    <div>
-                                        <MDBIcon icon="lock"/>
-                                        <input type="password" id="loginFormPassword" className="form-control mb-4 inputLogin" placeholder="Password" onChange={this.savePassword}/>
-                                    </div>
                                     <div className="mt-5">
-                                        <button className="btn-block my-4 btn btn-primary" onClick={this.clickSingIn}>Ingresar</button>
+                                        <button className="btn-block my-4 btn btn-primary" onClick={this.clickSingIn}>Iniciar Sesión</button>
                                     </div>
                                 </MDBCardBody>
                             </MDBCard>
