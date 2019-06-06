@@ -27,8 +27,8 @@ class Day extends React.Component{
         this.setState({date: date}, ()=>{this.getShifts(this.state.date)});
     }
     componentDidMount(){
-        this.getShifts(this.state.date);
         this.setState({date: this.test.models.date});
+        this.getShifts(this.test.models.date);
         console.log(this.test.models);
     }
     dateYYYYMMDD = (date) => {

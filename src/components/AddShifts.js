@@ -108,7 +108,7 @@ class AddShifts extends React.Component{
                 }
             })
             .then(res => {
-                if(res.status == 200){
+                if(res.status === 200){
                     this.setState({
                         showAlert: true,
                         color: "success",
