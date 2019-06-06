@@ -99,11 +99,9 @@ class ListShifts extends React.Component{
                                         {list.map((shift, index)=>{
                                             let worker = workers.find((worker) => {return worker.id === shift.users_id});
                                             return worker !== undefined ?
-                                                
                                                     <MDBListGroupItem key={index}>
                                                         {worker.last_name + " " + worker.first_name}
                                                     </MDBListGroupItem>
-                                                
                                                 : null;
                                             })
                                         }

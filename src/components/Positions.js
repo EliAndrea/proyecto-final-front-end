@@ -1,14 +1,23 @@
 import React from 'react';
 import { MDBCol, MDBRow, MDBInput, MDBCard, MDBCardBody, MDBContainer, MDBCardTitle, MDBListGroup, MDBListGroupItem, MDBIcon, MDBBtn } from 'mdbreact';
+import Alert from './Alert.js';
 
 class Positions extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            position: {}
+            position: {
+                position_name: ""
+            },
+            showAlert: false,
+            color: "",
+            title: "",
+            textAlert: ""
         };
     }
-    
+    componentDidMount(){
+        this.props.updatePositions();    
+    }
     addPosition = () => {
         let newPosition = this.state.position;
         fetch('http://127.0.0.1:8000/api/positions/',
@@ -20,14 +29,34 @@ class Positions extends React.Component{
 				"Authorization": "Token " + localStorage.getItem('token')
             }
         })
-        .then(resp => resp.json())
-        .then(response => {
-            console.log(response);
-            this.props.updatePositions();
+        .then(res => {
+            if(res.status === 200){
+                this.setState({
+                    showAlert: true,
+                    color: "success",
+                    title: "Nuevo cargo agregado exitosamente",
+                    textAlert: ""
+                });
+                this.props.updatePositions();
+            }
+            else{
+                this.setState({
+                    showAlert: true,
+                    color: "danger",
+                    title: "No se pudo agregar el nuevo cargo",
+                    textAlert: "Ha ocurrido un error"
+                });
+            }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error =>{
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "No se pudo agregar el nuevo cargo",
+                textAlert: "Ha ocurrido un error"
+            });
+        });
     }
-    
     deletePosition = (id) => {
         fetch('http://127.0.0.1:8000/api/positions/' + id, 
         {
@@ -38,41 +67,58 @@ class Positions extends React.Component{
             }
         })
         .then((resp)=> {
-		    console.log(resp);
-		    this.props.updatePositions();
-		    })
-		.catch(error => console.error('Error:', error));
+		    if(resp.ok){
+                this.setState({
+                    showAlert: true,
+                    color: "success",
+                    title: "Cargo eliminado",
+                    textAlert: ""
+                });
+		        this.props.updatePositions();
+		    }   
+		})
+		.catch(error =>{
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "No se pudo eliminar el cargo",
+                textAlert: "Ha ocurrido un error"
+            });
+        });
     }
-
-    componentDidMount(){
-        this.props.updatePositions();    
+    checkPosition = () =>{
+        if(this.state.position.position_name === ""){
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "No se pudo agregar el cargo",
+                textAlert: "Debe ingresar un nombre para el nuevo cargo"
+            });
+        }
+        else{
+            this.addPosition();
+        }
+    }
+    closeAlert = () => {
+        this.setState({showAlert:false});
     }
     
     render(){
         let list = this.props.positions;
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert}/>;
+        }
         return(
             <MDBContainer className="mt-4">
+                {msgAlert}
                 <MDBRow>
-                    <MDBCol size="6">
-                        <MDBCard>
-                            <MDBCardBody>
-                                <MDBCardTitle>Nuevo Cargo</MDBCardTitle>
-                                <MDBInput label="Nombre" maxLength="20" minLength="3" onChange={(event)=>{
-                                    let newPosition = this.state.position;
-                                    newPosition.position_name = event.target.value;
-                                    this.setState({position: newPosition})
-                                }}/>
-                                <div className="btnRight">
-                                    <MDBBtn color="deep-purple" size="sm" onClick={this.addPosition}>Agregar nuevo Cargo</MDBBtn>
-                                </div>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                    <MDBCol size="6">
+                    <MDBCol sm="12" lg="6">
                         <MDBContainer>
+                            <MDBCardTitle className="font-weight-normal">Tipos de cargo guardados</MDBCardTitle>
                             <MDBListGroup>
-                                <MDBListGroupItem>
-                                    <MDBRow>
+                                <MDBListGroupItem color="dark">
+                                    <MDBRow className="text-center font-weight-bolder">
                                         <MDBCol size="10">
                                             Cargo
                                         </MDBCol>
@@ -94,6 +140,21 @@ class Positions extends React.Component{
                                 }
                             </MDBListGroup>
                         </MDBContainer>
+                    </MDBCol>
+                    <MDBCol sm="12" lg="6">
+                        <MDBCard>
+                            <MDBCardBody>
+                                <MDBCardTitle>Crear nuevo cargo</MDBCardTitle>
+                                <MDBInput label="Nombre" maxLength="20" minLength="3" onChange={(event)=>{
+                                    let newPosition = this.state.position;
+                                    newPosition.position_name = event.target.value;
+                                    this.setState({position: newPosition});
+                                }}/>
+                                <div className="text-right">
+                                    <MDBBtn className="white-text mt-4" color="mdb-color" onClick={this.checkPosition}>Agregar Cargo</MDBBtn>
+                                </div>
+                            </MDBCardBody>
+                        </MDBCard>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
