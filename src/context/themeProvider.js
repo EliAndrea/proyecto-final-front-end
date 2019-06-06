@@ -83,7 +83,6 @@ class ThemeProvider extends React.Component{
 						let date1 =this.state.models;
 						date1.date = date;
 						this.setState({models: date1});
-						console.log(date);
 					}
 				}
 		};

@@ -86,9 +86,9 @@ class ListShifts extends React.Component{
                                     <MDBListGroup>
                                         {list.map((shift, index)=>{
                                             let type = types.find((type) => {return type.id === shift.shift_types_id});
-                                            return (<MDBListGroupItem key={index}>
-                                                {type.shift_start.substr(0, 5) + " - " + type.shift_end.substr(0, 5)}
-                                                </MDBListGroupItem>);
+                                                    return type !== undefined ? <MDBListGroupItem key={index}>
+                                                    {type.shift_start.substr(0, 5) + " - " + type.shift_end.substr(0, 5)}
+                                                </MDBListGroupItem> : null; 
                                             })
                                         }
                                     </MDBListGroup>
