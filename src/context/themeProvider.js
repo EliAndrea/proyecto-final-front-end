@@ -76,6 +76,7 @@ class ThemeProvider extends React.Component{
 						localStorage.setItem('token', newUser.token);
 						localStorage.setItem('admin', newUser.is_staff);
 						localStorage.setItem('isAuthenticated', newUser.is_authenticated);
+						localStorage.setItem('name', newUser.first_name + " " + newUser.last_name)
 						let models = this.state.models;
 						models.user = newUser;
 						this.setState({models: models});

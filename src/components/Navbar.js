@@ -21,6 +21,7 @@ class MyNavbar extends React.Component {
                 localStorage.removeItem('token');
                 localStorage.removeItem('admin');
                 localStorage.removeItem('isAuthenticated');
+                localStorage.removeItem('name');
                 return resp.json()})
             .catch(err => console.log(err));
     }
@@ -39,7 +40,8 @@ class MyNavbar extends React.Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            {admin && 
+                        <span className="text-white mt-2 mr-2">{localStorage.getItem('name')}</span>
+                            {admin &&
                             <React.Fragment>
                                 <NavItem>
                                     <NavLink href="/workers"><i className="fas fa-users"></i> Trabajadores</NavLink>

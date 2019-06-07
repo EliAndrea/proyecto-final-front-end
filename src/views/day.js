@@ -29,7 +29,6 @@ class Day extends React.Component{
     componentDidMount(){
         this.setState({date: this.dateContext.models.date});
         this.getShifts(this.dateContext.models.date);
-        console.log(this.dateContext.models);
     }
     dateYYYYMMDD = (date) => {
         let month = date.getMonth() + 1;
@@ -45,8 +44,8 @@ class Day extends React.Component{
     } 
     
     getShifts = (date) => {
-        let dadateContextring = this.dateYYYYMMDD(date);
-        let url = "http://127.0.0.1:8000/api/shifts/" + dadateContextring;
+        let dateString = this.dateYYYYMMDD(date);
+        let url = "http://127.0.0.1:8000/api/shifts/" + dateString;
         fetch(url,
         {
 			method: "GET",
@@ -88,7 +87,7 @@ class Day extends React.Component{
                                     </MDBCol>
                                 </MDBRow>
                             </MDBContainer>
-                            <AddShifts list={this.state.shiftsList} models={context.models} date={this.state.date} refresh={this.getShifts} dadateContextring={this.dateYYYYMMDD}/>
+                            <AddShifts list={this.state.shiftsList} models={context.models} date={this.state.date} refresh={this.getShifts} dateString={this.dateYYYYMMDD}/>
                             <ListShifts list={this.state.shiftsList} models={context.models} actions={context.actions} refresh={this.getShifts} date={this.state.date}/>
                         </div>
                         ):(
