@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBCol, MDBRow, MDBInput, MDBBtn, MDBIcon, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBtn, MDBIcon, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
 import Alert from './Alert.js';
 
 class AddShifts extends React.Component{
@@ -142,7 +142,7 @@ class AddShifts extends React.Component{
         });
         let msgAlert;
         if(this.state.showAlert){
-            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert}/>;
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert} sizeLg="8"/>;
         }
         return(
             <MDBContainer className="inputShift">

@@ -81,8 +81,8 @@ class Positions extends React.Component{
             this.setState({
                 showAlert: true,
                 color: "danger",
-                title: "No se pudo eliminar el cargo",
-                textAlert: "Ha ocurrido un error"
+                title: "Ha ocurrido un error",
+                textAlert: "No se pudo eliminar el cargo"
             });
         });
     }
@@ -107,7 +107,7 @@ class Positions extends React.Component{
         let list = this.props.positions;
         let msgAlert;
         if(this.state.showAlert){
-            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert}/>;
+            msgAlert = <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert} sizeLg="8"/>;
         }
         return(
             <MDBContainer className="mt-4">

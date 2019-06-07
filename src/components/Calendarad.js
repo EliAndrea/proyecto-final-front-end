@@ -26,7 +26,7 @@ export default class  MyCalendarAd extends Component {
         return (
             <div>
                 {redirect}
-                <InfiniteCalendar className="mt-5"
+                <InfiniteCalendar className="mt-3"
                     locale=
                     {{
                         locale: require('date-fns/locale/es'),
@@ -39,7 +39,7 @@ export default class  MyCalendarAd extends Component {
                     selected={null}
                     interpolateSelection={defaultMultipleDateInterpolation}
                     width={"100%"}
-                    height={600}
+                    height={500}
                     onSelect={this.testFunc}
                     displayOptions={{
                         showHeader: false

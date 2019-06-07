@@ -4,6 +4,7 @@ import MyNavbar from '../components/Navbar.js';
 import ListWorkers from '../components/ListWorkers.js';
 import FormWorkers from '../components/FormWorkers.js';
 import {Context} from '../context/themeProvider.js';
+import Alert from '../components/Alert.js';
 
 class Workers extends React.Component{
     constructor(){
@@ -11,7 +12,11 @@ class Workers extends React.Component{
         this.state = {
             form: "empty",
             titulo: "",
-            worker: {}
+            worker: {},
+            showAlert: false,
+            color: "",
+            title: "",
+            textAlert: ""
         };
         this.clickAddWorker = this.clickAddWorker.bind(this);
         this.clickShowWorker = this.clickShowWorker.bind(this);
@@ -27,6 +32,7 @@ class Workers extends React.Component{
                 last_name: "",
                 email: "",
                 phone_number: "",
+                positions_id: ""
             }
         });
     }
@@ -52,7 +58,25 @@ class Workers extends React.Component{
            worker: {}
         });
     }
+    showAlertSuccess = (msg) => {
+        this.setState({
+           showAlert: true,
+             color: "success",
+            title: "Cambios guardados",
+            textAlert: msg
+        });
+    }
+    closeAlert = () => {
+        this.setState({showAlert:false});
+    }
     render(){
+        let msgAlert;
+        if(this.state.showAlert){
+            msgAlert =
+            <div className="mt-5">
+            <Alert color={this.state.color} title={this.state.title} text={this.state.textAlert} closeAlert={this.closeAlert} sizeLg="12"/>
+            </div>;
+        }
         return(
             <Context.Consumer>
                 {(context) => {
@@ -64,14 +88,15 @@ class Workers extends React.Component{
                                     <MDBCol sm="12" lg="4">
                                         <ListWorkers models={context.models} actions={context.actions} 
                                             show={this.clickShowWorker} edit={this.clickEditWorker} />
-                                        <div className="btnRight">
-                                            <MDBBtn color="deep-purple" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
+                                        <div className="text-right">
+                                            <MDBBtn className="white-text mt-3 mr-0" color="mdb-color" size="sm" onClick={this.clickAddWorker}>Nuevo Trabajador</MDBBtn>
                                         </div>
                                     </MDBCol>
                                     <MDBCol sm="12" lg="7">
+                                        {msgAlert}
                                         {this.state.form !== "empty" &&
                                             <FormWorkers titulo={this.state.titulo} form={this.state.form} worker={Object.assign({}, this.state.worker)} 
-                                            actions={context.actions} hide={this.hideForm} models={context.models}/>
+                                            actions={context.actions} hide={this.hideForm} models={context.models} alert={this.showAlertSuccess}/>
                                         }
                                     </MDBCol>
                                 </MDBRow>
