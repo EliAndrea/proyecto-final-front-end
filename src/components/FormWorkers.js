@@ -15,10 +15,10 @@ class FormWorkers extends React.Component {
         };
     }
     clickSaveChanges= () => {
-        if(this.state.worker.first_name.length < 3 || !validator.isAlpha(this.state.worker.first_name)){
+        if(this.state.worker.first_name.length < 3 || !validator.isAlpha(this.state.worker.first_name,["es-ES"])){
             return this.showAlertError("Ingrese un nombre válido");
         }
-        if(this.state.worker.last_name.length < 3 || !validator.isAlpha(this.state.worker.last_name)){
+        if(this.state.worker.last_name.length < 3 || !validator.isAlpha(this.state.worker.last_name,["es-ES"])){
             return this.showAlertError("Ingrese un apellido válido");
         }
         if(!validator.isEmail(this.state.worker.email)){

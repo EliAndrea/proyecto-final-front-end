@@ -18,7 +18,7 @@ class Day extends React.Component{
             date: new Date(),
             shiftsList: []
         };
-        this.test = null;
+        this.dateContext = null;
         this.handleChange = this.handleChange.bind(this);
         this.getShifts = this.getShifts.bind(this);
     }
@@ -27,9 +27,9 @@ class Day extends React.Component{
         this.setState({date: date}, ()=>{this.getShifts(this.state.date)});
     }
     componentDidMount(){
-        this.setState({date: this.test.models.date});
-        this.getShifts(this.test.models.date);
-        console.log(this.test.models);
+        this.setState({date: this.dateContext.models.date});
+        this.getShifts(this.dateContext.models.date);
+        console.log(this.dateContext.models);
     }
     dateYYYYMMDD = (date) => {
         let month = date.getMonth() + 1;
@@ -45,8 +45,8 @@ class Day extends React.Component{
     } 
     
     getShifts = (date) => {
-        let dateString = this.dateYYYYMMDD(date);
-        let url = "http://127.0.0.1:8000/api/shifts/" + dateString;
+        let dadateContextring = this.dateYYYYMMDD(date);
+        let url = "http://127.0.0.1:8000/api/shifts/" + dadateContextring;
         fetch(url,
         {
 			method: "GET",
@@ -71,7 +71,7 @@ class Day extends React.Component{
         return (
             <Context.Consumer>
                 {(context) => {
-                    this.test = context;
+                    this.dateContext = context;
                     return (
                         admin ? (
                         <div>
@@ -88,7 +88,7 @@ class Day extends React.Component{
                                     </MDBCol>
                                 </MDBRow>
                             </MDBContainer>
-                            <AddShifts list={this.state.shiftsList} models={context.models} date={this.state.date} refresh={this.getShifts} dateString={this.dateYYYYMMDD}/>
+                            <AddShifts list={this.state.shiftsList} models={context.models} date={this.state.date} refresh={this.getShifts} dadateContextring={this.dateYYYYMMDD}/>
                             <ListShifts list={this.state.shiftsList} models={context.models} actions={context.actions} refresh={this.getShifts} date={this.state.date}/>
                         </div>
                         ):(

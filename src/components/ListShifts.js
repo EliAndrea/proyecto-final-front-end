@@ -33,7 +33,7 @@ class ListShifts extends React.Component{
                     title: "Turno eliminado",
                     textAlert: ""
                 });
-		        this.props.updatePositions();
+		        this.props.refresh(this.props.date);
 		    }   
 		})
 		.catch(error =>{
