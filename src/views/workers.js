@@ -32,6 +32,7 @@ class Workers extends React.Component{
                 last_name: "",
                 email: "",
                 phone_number: "",
+                positions_id: ""
             }
         });
     }

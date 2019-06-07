@@ -11,8 +11,6 @@ class Home extends React.Component{
         if (localStorage.getItem('admin') === "true"){
             admin = true;
         }
-        {console.log(admin)}
-        {console.log(localStorage.getItem('admin'))}
         return(
             <Context.Consumer>
             {(context) => {

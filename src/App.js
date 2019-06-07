@@ -7,6 +7,7 @@ import Home from './views/home.js';
 import Workers from './views/workers.js';
 import Day from './views/day.js';
 import Menu from './views/menu.js';
+import PrivateRoute from './components/PrivateRoute.js';
 
 function App() {
     return (
@@ -14,11 +15,11 @@ function App() {
             <Router>
                 <div className="App">
                     <Switch>
-                    <Route path="/" exact component={LoginView} />
-                        <Route path="/home/" component={Home} />
-                        <Route path="/workers/" component={Workers} />
-                        <Route path="/day" component={Day} />
-                        <Route path="/menu" component={Menu} />
+                        <Route path="/login" component={LoginView} />
+                        <PrivateRoute path="/" exact component={Home} />
+                        <PrivateRoute path="/workers" component={Workers} />
+                        <PrivateRoute path="/day" component={Day} />
+                        <PrivateRoute path="/menu" component={Menu} />
                     </Switch>
                 </div>
             </Router>

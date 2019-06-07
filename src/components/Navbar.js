@@ -18,8 +18,9 @@ class MyNavbar extends React.Component {
     logout = () => {
         fetch("http://127.0.0.1:8000/api/logout/")
             .then(resp => {
-                localStorage.removeItem('token')
-                localStorage.removeItem('admin')
+                localStorage.removeItem('token');
+                localStorage.removeItem('admin');
+                localStorage.removeItem('isAuthenticated');
                 return resp.json()})
             .catch(err => console.log(err));
     }
@@ -34,22 +35,22 @@ class MyNavbar extends React.Component {
         return (
             <div>
                 <Navbar light expand="md" className="navbar-dark bg-dark">
-                    <NavbarBrand href="/home/"><i className="fas fa-calendar-alt fa-2x"></i> Turno x Turno</NavbarBrand>
+                    <NavbarBrand href="/"><i className="fas fa-calendar-alt fa-2x"></i> Turno x Turno</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             {admin && 
                             <React.Fragment>
                                 <NavItem>
-                                    <NavLink href="/workers/"><i className="fas fa-users"></i> Trabajadores</NavLink>
+                                    <NavLink href="/workers"><i className="fas fa-users"></i> Trabajadores</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="/menu/"><i className="fas fa-cogs"></i> Menu</NavLink>
+                                    <NavLink href="/menu"><i className="fas fa-cogs"></i> Menu</NavLink>
                                 </NavItem>
                             </React.Fragment>
                             }
                             <NavItem>
-                                <NavLink onClick={this.logout} href="/"><i className="fas fa-sign-out-alt"></i> Cerrar Sesión</NavLink>
+                                <NavLink onClick={this.logout} href="/login"><i className="fas fa-sign-out-alt"></i> Cerrar Sesión</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>

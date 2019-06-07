@@ -18,8 +18,6 @@ export default class MyCalendar extends Component {
         this.testFunc = this.testFunc.bind(this);
     }
 
-    //onChange = date => this.setState({ date });
-
     getTurns = (date) => {
         let month = date.getMonth() + 1;
         let day = date.getDate();
@@ -73,25 +71,24 @@ export default class MyCalendar extends Component {
         return (
             <div>
                 {redirect}
-                {(this.state.list.length === 0 ) ? (
-                <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
-                ):(
-                <InfiniteCalendar className="c"
+                <InfiniteCalendar className="mt-3"
                     locale={{
                         weekdays:["Dom","Lun","Mar","Mie","Jue","Vie","Sab"],
                         weekStartsOn: 1,
+                        todayLabel: {
+                            long: 'Hoy',
+                        }
+                    }}
+                    displayOptions={{
+                        showHeader: false
                     }}
                     Component={withMultipleDates(Calendar)}
                     selected={days}
                     interpolateSelection={defaultMultipleDateInterpolation}
                     width={"100%"}
-                    height={600}
+                    height={500}
                     onSelect={this.testFunc}
                 />
-                )
-                }
             </div>
         );
     }

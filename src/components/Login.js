@@ -3,7 +3,7 @@ import { MDBCol, MDBRow, MDBCard, MDBContainer, MDBCardBody, MDBInput } from 'md
 import { Redirect } from 'react-router-dom'; 
 import Alert from './Alert.js';
 
-class Login2 extends React.Component{
+class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -34,10 +34,10 @@ class Login2 extends React.Component{
                 headers: {"Content-Type": "application/json"}
             })
             .then(res => {
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.json();
                 }
-                else if(res.status == 400){
+                else if(res.status === 400){
                     this.setState({
                         showAlert: true,
                         textAlert: "Ingrese un nombre de usuario y/o contraseña correctos"
@@ -66,7 +66,7 @@ class Login2 extends React.Component{
             msgAlert = <Alert color="danger" title="No se pudo iniciar sesión" text={this.state.textAlert} closeAlert={this.closeAlert}/>;
         }
         if (this.props.models.user.is_authenticated){
-            return <Redirect to='/home/' />;
+            return <Redirect to='/' />;
         }
         return(
             <div className="mt-5">
@@ -111,4 +111,4 @@ class Login2 extends React.Component{
     }
 }
 
-export default Login2;
+export default Login;

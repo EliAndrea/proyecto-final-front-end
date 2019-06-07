@@ -16,7 +16,6 @@ class ListShifts extends React.Component{
     }
     //Función para eliminar turno
     deleteShift = (id) => {
-        console.log(id);
         let url = "http://127.0.0.1:8000/api/shifts/" + id;
 		fetch(url, 
 		{
@@ -26,11 +25,25 @@ class ListShifts extends React.Component{
 				"Authorization": "Token " + localStorage.getItem('token')
 			}
 		})
-		    .then((resp)=> {
-		        console.log(resp);
-		        this.props.refresh(this.props.date);
-		    })
-		    .catch((err)=>{alert(err)});
+		.then((resp)=> {
+		    if(resp.ok){
+                this.setState({
+                    showAlert: true,
+                    color: "success",
+                    title: "Turno eliminado",
+                    textAlert: ""
+                });
+		        this.props.updatePositions();
+		    }   
+		})
+		.catch(error =>{
+            this.setState({
+                showAlert: true,
+                color: "danger",
+                title: "Ha ocurrido un error",
+                textAlert: "No se pudo eliminar el turno"
+            });
+        });
     }
     
     render(){

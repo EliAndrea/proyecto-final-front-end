@@ -81,8 +81,8 @@ class Positions extends React.Component{
             this.setState({
                 showAlert: true,
                 color: "danger",
-                title: "No se pudo eliminar el cargo",
-                textAlert: "Ha ocurrido un error"
+                title: "Ha ocurrido un error",
+                textAlert: "No se pudo eliminar el cargo"
             });
         });
     }

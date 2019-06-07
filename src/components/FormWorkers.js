@@ -1,6 +1,7 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBInput, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import Alert from './Alert.js';
+import validator from 'validator';
 
 class FormWorkers extends React.Component {
     constructor(props){
@@ -14,6 +15,21 @@ class FormWorkers extends React.Component {
         };
     }
     clickSaveChanges= () => {
+        if(this.state.worker.first_name.length < 3 || !validator.isAlpha(this.state.worker.first_name)){
+            return this.showAlertError("Ingrese un nombre válido");
+        }
+        if(this.state.worker.last_name.length < 3 || !validator.isAlpha(this.state.worker.last_name)){
+            return this.showAlertError("Ingrese un apellido válido");
+        }
+        if(!validator.isEmail(this.state.worker.email)){
+            return this.showAlertError("Ingrese un email válido");
+        }
+        if(this.state.worker.phone_number === ""){
+            return this.showAlertError("Ingrese un número de teléfono");
+        }
+        if(this.state.worker.positions_id === ""){
+            return this.showAlertError("Seleccione un cargo");
+        }
         if (this.props.form === "addWorker"){
             this.addNewWorker();
         }
@@ -23,7 +39,6 @@ class FormWorkers extends React.Component {
     }
     addNewWorker = () => {
         let worker = this.state.worker;
-        console.log(worker);
         fetch("http://127.0.0.1:8000/api/users/", 
         {
             method: "POST",
@@ -41,21 +56,11 @@ class FormWorkers extends React.Component {
                 this.props.actions.updateWorkersList();
             }
             else{
-                this.setState({
-                    showAlert: true,
-                    color: "danger",
-                    title: "Ha ocurrido un error",
-                    textAlert: "No se pudo agregar el trabajador"
-                });
+                this.showAlertError("No se pudo agregar el trabajador");
             }
         })
         .catch(error =>{
-            this.setState({
-                showAlert: true,
-                color: "danger",
-                title: "Ha ocurrido un error",
-                textAlert: "No se pudo agregar el trabajador"
-            });
+            this.showAlertError("No se pudo agregar el trabajador");
         });
     }
     updateWorker = () => {
@@ -79,26 +84,23 @@ class FormWorkers extends React.Component {
                 this.props.actions.updateWorkersList();
             }
             else{
-                this.setState({
-                    showAlert: true,
-                    color: "danger",
-                    title: "Ha ocurrido un error",
-                    textAlert: "No se pudo actualizar los datos del trabajador"
-                });
+                this.showAlertError("No se pudo actualizar los datos del trabajador");
             }
         })
         .catch(error =>{
-            this.setState({
-                showAlert: true,
-                color: "danger",
-                title: "Ha ocurrido un error",
-                textAlert: "No se pudo actualizar los datos del trabajador"
-            });
+            this.showAlertError("No se pudo actualizar los datos del trabajador");
+        });
+    }
+    showAlertError = (msg) => {
+        this.setState({
+            showAlert: true,
+            color: "danger",
+            title: "Ha ocurrido un error",
+            textAlert: msg
         });
     }
     closeAlert = () => {
         this.setState({showAlert:false});
-        this.props.hide();
     }
     render(){
         let worker = this.props.worker;

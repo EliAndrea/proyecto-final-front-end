@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBCol, MDBRow, MDBInput, MDBBtn, MDBIcon, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBtn, MDBIcon, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
 import Alert from './Alert.js';
 
 class AddShifts extends React.Component{
